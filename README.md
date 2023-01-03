@@ -1,6 +1,8 @@
 # N1MM Commands for Touch Portal
 ### by Jason Frazier W7DM
 
+(Stream Deck plugin coming in the future, see my other projects)
+
 This TouchPortal plugin integrates the N1MM Logger+ app by Tom Wagner N1MM, 
 allowing the user to create buttons in TouchPortal that issue macros, transmit 
 content that can also contain macros, and perform limited commands in the Entry
