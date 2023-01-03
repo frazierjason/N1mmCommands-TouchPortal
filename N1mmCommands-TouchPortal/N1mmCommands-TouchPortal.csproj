@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>N1mmCommands-TouchPortal</RootNamespace>
+    <StartupObject>N1mmCommands.Touchportal.Program</StartupObject>
+    <ApplicationIcon />
+    <Win32Resource />
+    <Platforms>x64</Platforms>
+    <Version>1</Version>
+    <AssemblyVersion>1</AssemblyVersion>
+    <FileVersion>1</FileVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IReflectionService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AssemblyAttribute" Version="1.0.2" />
+    <PackageReference Include="InputSimulatorEx" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageReference Include="TouchPortal-CS-API" Version="1.45.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TouchPortalExtension\TouchPortalExtension.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="entry.tp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="N1MM_white_on_transparent.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="@echo ON&#xD;&#xA;&#xD;&#xA;if not exist &quot;$(ProjectDir)\Installer&quot; (  md &quot;$(ProjectDir)\Installer&quot;)&#xD;&#xA;&#xD;&#xA;if exist &quot;$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).tpp&quot; (  Del &quot;$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).tpp&quot;)&#xD;&#xA;&#xD;&#xA;if exist &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot; (  rmdir /Q /S &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot;)&#xD;&#xA;&#xD;&#xA;mkdir &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot;&#xD;&#xA;&#xD;&#xA;cd $(OutDir)&#xD;&#xA;&#xD;&#xA;if &quot;Debug&quot; == &quot;$(ConfigurationName)&quot; (&#xD;&#xA;  powershell.exe -command ^(Get-Content appsettings.json^).Replace^(\&quot;`\&quot;TouchPortalSDK`\&quot;`: `\&quot;Warning`\&quot;\&quot;,\&quot;`\&quot;TouchPortalSDK`\&quot;: `\&quot;Debug`\&quot;\&quot;^).Replace^(\&quot;`\&quot;N1mmCommands`\&quot;`: `\&quot;Warning`\&quot;\&quot;,\&quot;`\&quot;N1mmCommands`\&quot;: `\&quot;Debug`\&quot;\&quot;^) ^| Set-Content appsettings.json&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;powershell.exe -command Copy-Item -Path *.exe, *dll, *xml, *json, *config, *pdb, *.tp, *png -Destination '$(ProjectDir)\Installer\$(AssemblyName)'&#xD;&#xA;&#xD;&#xA;powershell.exe -command Copy-Item -Path '$(SolutionDir)\LICENS*.txt', '$(SolutionDir)\README.md' -Destination '$(ProjectDir)\Installer\$(AssemblyName)'&#xD;&#xA;&#xD;&#xA;cd ..&#xD;&#xA;&#xD;&#xA;powershell.exe -command Compress-Archive -Path '$(ProjectDir)\Installer\$(AssemblyName)' -DestinationPath '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).zip' -Force&#xD;&#xA;&#xD;&#xA;powershell.exe -command Rename-Item -Path '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).zip' -NewName '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration)-v$(Version).tpp'&#xD;&#xA;" />
+  </Target>
+
+</Project>

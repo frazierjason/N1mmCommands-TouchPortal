@@ -1,0 +1,185 @@
+{
+  "sdk": 3,
+  "version": 1,
+  "name": "N1MM+ Commands for Touch Portal",
+  "id": "n1mm.commands.tp",
+  "configuration": {
+    "colorDark": "#1A0068",
+    "colorLight": "#B399FF",
+    "parentCategory": "misc"
+  },
+  "plugin_start_cmd": "%TP_PLUGIN_FOLDER%\\N1mmCommands-TouchPortal\\N1mmCommands-TouchPortal.exe",
+  "settings": [
+    {
+      "name": "N1MM+ RadioInfo Broadcast Address",
+      "default": "0.0.0.0",
+      "type": "text",
+      "maxLength": 15,
+      "readOnly": "false"
+    },
+    {
+      "name": "N1MM+ RadioInfo Broadcast Port",
+      "default": "12060",
+      "type": "number",
+      "minValue": 1,
+      "maxValue": 65535,
+      "readOnly": "false"
+    },
+    {
+      "name": "N1MM+ RadioCmd Listener Address",
+      "default": "127.0.0.1",
+      "type": "text",
+      "maxLength": 15,
+      "readOnly": "true"
+    },
+    {
+      "name": "N1MM+ RadioCmd Listener Port",
+      "default": "13064",
+      "type": "number",
+      "minValue": 1,
+      "maxValue": 65535,
+      "readOnly": "true"
+    }
+  ],
+  "categories": [
+    {
+      "id": "n1mm.commands.tp.sendCommand",
+      "name": "N1MM+ - Send Commands",
+      "imagepath": "%TP_PLUGIN_FOLDER%\\N1mmCommands-TouchPortal\\N1MM_white_on_transparent.png",
+      "actions": [
+        {
+          "id": "n1mm.commands.tp.sendCommandString",
+          "name": "Send any command via the Call Sign box",
+          "prefix": "n1mm",
+          "type": "communicate",
+          "description": "Triggers your message/macro in N1MM+, as if entered from Call Sign box",
+          "tryInline": true,
+          "format": "Send Command - {$n1mm.commands.tp.sendCommandString.press.Data.0$}",
+          "data": [
+            {
+              "id": "n1mm.commands.tp.sendCommandString.press.Data.0",
+              "type": "text",
+              "label": "Command",
+              "default": "CQ TEST DE {MYCALL}"
+            }
+          ]
+        },
+        {
+          "id": "n1mm.commands.tp.sendKeys",
+          "name": "Simulate a keypress into the Entry Window",
+          "prefix": "n1mm",
+          "type": "communicate",
+          "description": "Bring N1MM+ to foreground and simulate a keypress",
+          "tryInline": true,
+          "format": "Send Key - Ctrl{$n1mm.commands.tp.sendKeys.press.Data.ctrl$}  Alt{$n1mm.commands.tp.sendKeys.press.Data.alt$}  Shift{$n1mm.commands.tp.sendKeys.press.Data.shift$}  Key{$n1mm.commands.tp.sendKeys.press.Data.vk$}  Allow in background{$n1mm.commands.tp.sendKeys.press.Data.allowbg$}",
+          "data": [
+            {
+              "id": "n1mm.commands.tp.sendKeys.press.Data.ctrl",
+              "type": "switch",
+              "label": "Ctrl",
+              "default": "false"
+            },
+            {
+              "id": "n1mm.commands.tp.sendKeys.press.Data.alt",
+              "type": "switch",
+              "label": "Alt",
+              "default": "false"
+            },
+            {
+              "id": "n1mm.commands.tp.sendKeys.press.Data.shift",
+              "type": "switch",
+              "label": "Shift",
+              "default": "false"
+            },
+            {
+              "id": "n1mm.commands.tp.sendKeys.press.Data.vk",
+              "type": "choice",
+              "label": "Virtual Key",
+              "default": "Escape",
+              "valueChoices": [
+                "NO KEY (just show N1MM+)",
+                "Escape",
+                "Arrow Up",
+                "Arrow Down",
+                "Back-quote or Grave `",
+                "Backslash \\",
+                "Enter",
+                "Equal =+",
+                "Foward Slash /",
+                "Insert",
+                "Minus -_",
+                "Page Up",
+                "Page Down",
+                "Pause",
+                "Quote '",
+                "Semicolon ;",
+                "Space Bar",
+                "Ten-Key Add (Plus)",
+                "Ten-Key Subtract (Minus)",
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I",
+                "J",
+                "K",
+                "L",
+                "M",
+                "N",
+                "O",
+                "P",
+                "Q",
+                "R",
+                "S",
+                "T",
+                "U",
+                "V",
+                "W",
+                "X",
+                "Y",
+                "Z",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "0",
+                "F1",
+                "F2",
+                "F3",
+                "F4",
+                "F5",
+                "F6",
+                "F7",
+                "F8",
+                "F9",
+                "F10",
+                "F11",
+                "F12",
+                "Scroll Lock",
+                "Comma",
+                "Period",
+                "Left Square Brace [",
+                "Right Square Brace ]"
+              ]
+            },
+            {
+              "id": "n1mm.commands.tp.sendKeys.press.Data.allowbg",
+              "type": "switch",
+              "label": "Allow in background",
+              "default": "false"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
