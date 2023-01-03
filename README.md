@@ -1,5 +1,7 @@
-# N1MM Commands for Touch Portal
+# N1MM+ Commands for Touch Portal
 ### by Jason Frazier W7DM
+
+(Stream Deck plugin coming in the future, see my other projects)
 
 This TouchPortal plugin integrates the N1MM Logger+ app by Tom Wagner N1MM, 
 allowing the user to create buttons in TouchPortal that issue macros, transmit 
@@ -111,7 +113,7 @@ is beyond the scope of this README file.
 
 At initial release, only one example Radio Adjustment Page is provided, which 
 should work with most modern ICOM SDR transceivers. It is configurable for your
-ICOM CI-V rig address by going to the "Values" tab and looking for the value 
+ICOM CI-V rig address by going to the "Values" tab and right-clicking the value 
 named "N1MM CAT1 CIV ID (ICOM)".  By default it is set to "94" which is the 
 usual value for an ICOM IC-7300. I don't have one of these, so I tested it 
 with value "A4" on my IC-705.  More example pages matching other rigs will 
