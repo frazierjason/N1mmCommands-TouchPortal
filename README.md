@@ -1,4 +1,4 @@
-# N1MM Commands for Touch Portal
+# N1MM+ Commands for Touch Portal
 ### by Jason Frazier W7DM
 
 (Stream Deck plugin coming in the future, see my other projects)
