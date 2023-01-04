@@ -7,15 +7,23 @@
     <StartupObject>N1mmCommands.Touchportal.Program</StartupObject>
     <ApplicationIcon />
     <Win32Resource />
-    <Platforms>x64</Platforms>
-    <Version>1</Version>
+    <Platforms>x64;AnyCPU;x86</Platforms>
+    <Version>2</Version>
     <AssemblyVersion>1</AssemblyVersion>
     <FileVersion>1</FileVersion>
     <Nullable>enable</Nullable>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
@@ -24,6 +32,15 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,6 +65,7 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="6.0.0" />
     <PackageReference Include="TouchPortal-CS-API" Version="1.45.1" />
   </ItemGroup>
 
@@ -68,7 +86,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="@echo ON&#xD;&#xA;&#xD;&#xA;if not exist &quot;$(ProjectDir)\Installer&quot; (  md &quot;$(ProjectDir)\Installer&quot;)&#xD;&#xA;&#xD;&#xA;if exist &quot;$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).tpp&quot; (  Del &quot;$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).tpp&quot;)&#xD;&#xA;&#xD;&#xA;if exist &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot; (  rmdir /Q /S &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot;)&#xD;&#xA;&#xD;&#xA;mkdir &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot;&#xD;&#xA;&#xD;&#xA;cd $(OutDir)&#xD;&#xA;&#xD;&#xA;if &quot;Debug&quot; == &quot;$(ConfigurationName)&quot; (&#xD;&#xA;  powershell.exe -command ^(Get-Content appsettings.json^).Replace^(\&quot;`\&quot;TouchPortalSDK`\&quot;`: `\&quot;Warning`\&quot;\&quot;,\&quot;`\&quot;TouchPortalSDK`\&quot;: `\&quot;Debug`\&quot;\&quot;^).Replace^(\&quot;`\&quot;N1mmCommands`\&quot;`: `\&quot;Warning`\&quot;\&quot;,\&quot;`\&quot;N1mmCommands`\&quot;: `\&quot;Debug`\&quot;\&quot;^) ^| Set-Content appsettings.json&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;powershell.exe -command Copy-Item -Path *.exe, *dll, *xml, *json, *config, *pdb, *.tp, *png -Destination '$(ProjectDir)\Installer\$(AssemblyName)'&#xD;&#xA;&#xD;&#xA;powershell.exe -command Copy-Item -Path '$(SolutionDir)\LICENS*.txt', '$(SolutionDir)\README.md' -Destination '$(ProjectDir)\Installer\$(AssemblyName)'&#xD;&#xA;&#xD;&#xA;cd ..&#xD;&#xA;&#xD;&#xA;powershell.exe -command Compress-Archive -Path '$(ProjectDir)\Installer\$(AssemblyName)' -DestinationPath '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).zip' -Force&#xD;&#xA;&#xD;&#xA;powershell.exe -command Rename-Item -Path '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).zip' -NewName '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration)-v$(Version).tpp'&#xD;&#xA;" />
+    <Exec Command="@echo ON&#xD;&#xA;&#xD;&#xA;if not exist &quot;$(ProjectDir)\Installer&quot; (  md &quot;$(ProjectDir)\Installer&quot;)&#xD;&#xA;&#xD;&#xA;if exist &quot;$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).tpp&quot; (  Del &quot;$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).tpp&quot;)&#xD;&#xA;&#xD;&#xA;if exist &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot; (  rmdir /Q /S &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot;)&#xD;&#xA;&#xD;&#xA;mkdir &quot;$(ProjectDir)\Installer\$(AssemblyName)&quot;&#xD;&#xA;&#xD;&#xA;cd $(OutDir)&#xD;&#xA;&#xD;&#xA;if &quot;Debug&quot; == &quot;$(ConfigurationName)&quot; (&#xD;&#xA;  powershell.exe -command ^(Get-Content appsettings.json^).Replace^(\&quot;`\&quot;TouchPortalSDK`\&quot;`: `\&quot;Warning`\&quot;\&quot;,\&quot;`\&quot;TouchPortalSDK`\&quot;: `\&quot;Debug`\&quot;\&quot;^).Replace^(\&quot;`\&quot;N1mmCommands`\&quot;`: `\&quot;Warning`\&quot;\&quot;,\&quot;`\&quot;N1mmCommands`\&quot;: `\&quot;Debug`\&quot;\&quot;^) ^| Set-Content appsettings.json&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;powershell.exe -command Copy-Item -Path *.exe, *dll, *xml, *json, *config, *pdb, *.tp, *png -Destination '$(ProjectDir)\Installer\$(AssemblyName)'&#xD;&#xA;&#xD;&#xA;powershell.exe -command Copy-Item -Path '$(SolutionDir)\LICENS*.txt', '$(SolutionDir)\README.md' -Destination '$(ProjectDir)\Installer\$(AssemblyName)'&#xD;&#xA;&#xD;&#xA;cd ..&#xD;&#xA;&#xD;&#xA;powershell.exe -command Compress-Archive -Path '$(ProjectDir)\Installer\$(AssemblyName)' -DestinationPath '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).zip' -Force&#xD;&#xA;&#xD;&#xA;if &quot;Debug&quot; == &quot;$(ConfigurationName)&quot; (&#xD;&#xA;  powershell.exe -command Move-Item -Force '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).zip' '$(ProjectDir)\Installer\$(AssemblyName)-$(RuntimeIdentifier)-$(Configuration)-v$(Version)-do-not-use-unless-debugging.tpp'&#xD;&#xA;) else (&#xD;&#xA;  powershell.exe -command Move-Item -Force '$(ProjectDir)\Installer\$(AssemblyName)-$(Configuration).zip' '$(ProjectDir)\Installer\$(AssemblyName)-$(RuntimeIdentifier)-$(Configuration)-v$(Version).tpp'&#xD;&#xA;)&#xD;&#xA;" />
   </Target>
 
 </Project>
