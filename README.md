@@ -149,13 +149,14 @@ or use the keypress simulator below to type in a sequence of keys for you.
 ### Simulate a keypress into the Entry Window
 
 Ability to send a user-configured keystroke with Ctrl/Alt/Shift modifiers. 
-This action will first call the correct N1MM+ Call Sign Entry box into the 
+This action will first call the correct N1MM+ Call Sign Entry window to the 
 foreground, and then issue the keypress.  The plugin handles the keypress 
 simulation directly, since TouchPortal does not know which of the N1MM+ 
 windows should receive it.  The implementation eventually will take into 
 account the two-radio scenario on the same workstation, but for now it is 
-not yet fully implemented or tested, so please don't expect it to work.
-There is also a switch called "Allow in Background", which is not yet 
+not yet fully implemented or tested, so please don't expect it to work. 
+Any text box that has the cursor will receive the keys, not just the Entry
+box. There is also a switch called "Allow in Background", which is not yet 
 implemented and may never be, depending on how much can be accomplished 
 by hams with the Send Message functionality (which works even if N1MM+ 
 is backgrounded).  N1MM+ keystroke bindings are documented at:
