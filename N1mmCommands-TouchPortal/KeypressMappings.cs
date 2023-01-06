@@ -10,6 +10,11 @@ namespace N1mmCommands.Touchportal
 {
 	public class KeypressMappings
 	{
+        // these must be matched in value and sequence to the following list im Entry.tp under:
+        //  categories.id -> n1mm.commands.tp.sendCommand
+        //      actions.id -> n1mm.commands.tp.sendKeys
+        //          data.id -> n1mm.commands.tp.sendKeys.press.Data.vk
+
         // InputSimulatorEx is based on these mappings:
         // https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         public static readonly Dictionary<string, VirtualKeyCode> VIRTUALKEY = new()
@@ -90,84 +95,5 @@ namespace N1mmCommands.Touchportal
 		public KeypressMappings()
 		{
 		}
-
-        /*
-		 * 
-                "Escape",
-                "Arrow Up",
-                "Arrow Down",
-                "Page Up",
-                "Page Down",
-                "Keypad Plus",
-                "Keypad Minus",
-                "Mouse Wheel Up",
-                "Mouse Wheel Down",
-                "Scroll Lock",
-                "Pause",
-                "Quote",
-                "Semicolon",
-                "Insert",
-                "Enter",
-                "Space Bar",
-                "Foward Slash /",
-                "Backslash \\",
-                "Pause",
-                "Back-quote or Grave `",
-                "Minus",
-                "Equal",
-                "A",
-                "B",
-                "D",
-                "E",
-                "F",
-                "G",
-                "H",
-                "I",
-                "J",
-                "K",
-                "L",
-                "M",
-                "N",
-                "O",
-                "P",
-                "Q",
-                "R",
-                "S",
-                "T",
-                "U",
-                "W",
-                "Y",
-                "Z",
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "0",
-                "F1",
-                "F2",
-                "F3",
-                "F4",
-                "F5",
-                "F6",
-                "F7",
-                "F8",
-                "F9",
-                "F10",
-                "F11",
-                "F12",
-                "NO KEY (just bring N1MM+ Call Sign Window to fore)",
-                "C",
-                "V",
-                "X",
-                "Comma",
-                "Period",
-                "Left Square Brace [",
-                "Right Square Brace ]"
-		 */
     }
 }

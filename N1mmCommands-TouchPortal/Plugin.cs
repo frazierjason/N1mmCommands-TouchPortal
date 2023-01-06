@@ -22,7 +22,7 @@ namespace N1mmCommands.Touchportal
         private const string N1MM_UDP_BROADCAST_PORT = "N1MM+ RadioInfo Broadcast Port";
         private const string N1MM_RADIOCMD_LISTENER_ADDRESS = "N1MM+ RadioCmd Listener Address";
         private const string N1MM_UDP_LISTENER_PORT = "N1MM+ RadioCmd Listener Port";
-        private const string N1MM_TEST_SETTING = "N1mmTestSetting";
+
         private readonly byte[] N1MM_RADIOCMD_PREFIX_FOR_RADIO1 = System.Text.Encoding.ASCII.GetBytes("<RadioCmd><RadioNr>1</RadioNr><FocusEntry>");
         private readonly byte[] N1MM_RADIOCMD_PREFIX_FOR_RADIO2 = System.Text.Encoding.ASCII.GetBytes("<RadioCmd><RadioNr>2</RadioNr><FocusEntry>");
         private readonly byte[] N1MM_RADIOCMD_MIDFIX = System.Text.Encoding.ASCII.GetBytes("</FocusEntry><RadioCommand>");
@@ -46,6 +46,8 @@ namespace N1mmCommands.Touchportal
         private ushort _currentRadioIdx = 0;  // start with radio1
         private bool _hasSecondRadio = false;
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int GetForegroundWindow();
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(int hWnd);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -586,6 +588,9 @@ namespace N1mmCommands.Touchportal
                             bool shift = message.Data.GetValueOrDefault("n1mm.commands.tp.sendKeys.press.Data.shift", "Off").Equals("On");
                             bool allowbg = message.Data.GetValueOrDefault("n1mm.commands.tp.sendKeys.press.Data.allowbg", "Off").Equals("On");
 
+                            // _r[_cr].EntryWindowHwnd matches _r[_cr].FocusEntry only if _currentRadio is the ActiveRadio
+                            int targetHwnd = _radioInfo[_currentRadioIdx].EntryWindowHwnd;
+
                             // use VK_APPS as a dictionary miss fallthrough (aka the Context Menu key, which is not used by N1MM+ and not present in Entry.tp)
                             InputSimulatorEx.Native.VirtualKeyCode vk =
                                 KeypressMappings.VIRTUALKEY.GetValueOrDefault(
@@ -593,9 +598,21 @@ namespace N1mmCommands.Touchportal
                                     InputSimulatorEx.Native.VirtualKeyCode.APPS);
 
                             // foreground the app first, then send the key if it's a valid one
-                            // _r[_cr].EntryWindowHwnd matches _r[_cr].FocusEntry only if _currentRadio is the ActiveRadio
-                            SetForegroundWindow(_radioInfo[_currentRadioIdx].EntryWindowHwnd);
-                            ShowWindow(_radioInfo[_currentRadioIdx].EntryWindowHwnd, SW_RESTORE);
+                            SetForegroundWindow(targetHwnd);
+                            ShowWindow(targetHwnd, SW_RESTORE);
+
+                            int i = 40;  // wait up to two seconds
+                            for (; i > 0; --i )
+                            {
+                                if (targetHwnd == GetForegroundWindow())
+                                    break;  // this break leaves this local for-loop
+                                System.Threading.Thread.Sleep(50);
+                            }
+                            if (0 == i)
+                            {
+                                _logger?.LogDebug($"OnActionEvent(): Waited too long for Entry window hWnd {targetHwnd} to be foregrounded, so aborting send key action.\n");
+                                break; // leave this case block prematurely
+                            }
 
                             if (vk != InputSimulatorEx.Native.VirtualKeyCode.APPS)
                             {
@@ -666,8 +683,6 @@ namespace N1mmCommands.Touchportal
                             _logger?.LogDebug("OnActionEvent(): Ignoring unsupported or malformed keystroke action.\n");
                         }
                         break;
-
-                        
 
                     default:
                         _logger?.LogDebug("OnActionEvent(): ignoring unknown Action message.Type\n");
