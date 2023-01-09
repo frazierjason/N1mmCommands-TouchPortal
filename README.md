@@ -37,8 +37,8 @@ For now, here are some early notes for testers and developers.
 #### Prerequisites:
 - Windows 64-bit PC installation (no 32 bit) that already runs N1MM+ well enough
   to control your rig in successful contesting activities
-- An iPad, Android tablet, or for test purposes an iPhone or Android phone that
-  has an account signed into its App/Play store and can make in-app purchases
+- An iPad, Android tablet that has an account signed into its App/Play store and
+  can make in-app purchases (iPhone/Android phones work too, w/ smaller buttons)
 - Good WiFi connection shared by both your PC and your tablet, or optionally 
   use a USB cable for Android without any WiFi
 - A one-time purchase in Apple App store or Google Play store, about $14 USD in 
