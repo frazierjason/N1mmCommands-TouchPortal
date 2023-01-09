@@ -98,8 +98,8 @@ auto startup in the application's settings menus.
 
 On your tablet, double-check that you are connected to the same WiFi as your PC.
 
-Search for "TouchPortal" in the Apple App or Android Play Store.
-You can also use your smartphone, but the buttons will be pretty small.
+Search for "TouchPortal" in the Apple App or Android Play Store. Install the 
+app onto your tablet.
 
 (screenshot for store search result TBD)
 
@@ -111,8 +111,9 @@ up so far, so the tablet app will look fairly empty).
 (screenshot of empty looking tablet TP page)
 
 If your tablet cannot connect to your PC, it will prompt an error. Please refer 
-to the "Guides & Help" materials on TouchPortal's website to fix the issue and
-get your tablet connected to your PC, before any next steps or buying upgrades.
+to the FAQ link below, or the "Guides & Help" materials on TouchPortal's 
+website to fix the issue and get your tablet connected to your PC, before 
+performing any further steps or buying the upgrade.
 
 https://www.touch-portal.com/faq.php?faqId=touch-portal-cannot-connect
 
