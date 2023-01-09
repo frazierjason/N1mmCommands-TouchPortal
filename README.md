@@ -41,8 +41,9 @@ For now, here are some early notes for testers and developers.
   can make in-app purchases (iPhone/Android phones work too, w/ smaller buttons)
 - Good WiFi connection shared by both your PC and your tablet, or optionally 
   use a USB cable for Android without any WiFi
-- A one-time purchase in Apple App store or Google Play store, about $14 USD in 
-  January 2023, for TouchPortal's Pro Upgrade that enables plugin usage
+- Willingness to make a one-time purchase in Apple App store or Google Play 
+  store, about $14 USD in January 2023, for TouchPortal's Pro Upgrade that 
+  enables plugin usage
   - Buy it twice if you want both iPad and Android tablet
   - I don't get any of this money, it goes to TouchPortal
 
