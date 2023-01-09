@@ -52,17 +52,17 @@ to make connections from your tablet to your PC.
 
 Upon starting TouchPortal, complete the setup wizard as follows:
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-1.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-1.JPG)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-2.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-2.JPG)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-3.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-3.JPG)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-4.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-4.JPG)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-5.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-5.JPG)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-6.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-6.JPG)
 
 After starting up, you will have an empty "(main)" page with no button tiles.
 
@@ -76,9 +76,9 @@ auto startup in the application's settings menus.
 
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-open-settings.jpg)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-settings-scrolldown.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/c44d19b48e7f023a12974f01dbf38f448391ed0b/tp-settings-scrolldown.jpg)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-settings-enable-autostart.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/c44d19b48e7f023a12974f01dbf38f448391ed0b/tp-settings-enable-autostart.jpg)
 
 Now you need a spare iPad or Android tablet to use at your shack desk.  It can
 even be somewhat old, this software supports some old versions of
