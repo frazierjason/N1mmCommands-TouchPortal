@@ -66,7 +66,7 @@ Upon starting TouchPortal, complete the setup wizard as follows:
 
 After starting up, you will have an empty "(main)" page with no button tiles.
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-first-startup.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-first-startup.JPG)
 
 TouchPortal is now set up.  If you close it, it's still running in the system
 tray next to the Windows clock.  You can reopen/restart/exit from there.
@@ -74,7 +74,7 @@ tray next to the Windows clock.  You can reopen/restart/exit from there.
 By default TouchPortal does not start automatically. If you want, you can enable
 auto startup in the application's settings menus.
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-open-settings.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-open-settings.JPG)
 
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/c44d19b48e7f023a12974f01dbf38f448391ed0b/tp-settings-scrolldown.jpg)
 
