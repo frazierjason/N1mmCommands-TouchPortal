@@ -1,17 +1,21 @@
 # N1MM+ Commands for Touch Portal
 ### by Jason Frazier W7DM
 
-(Stream Deck plugin coming in the future, see my other projects)
+(Stream Deck plugin planned in the future, see my other projects)
 
 This TouchPortal plugin integrates the N1MM Logger+ app by Tom Wagner N1MM, 
-allowing the user to create buttons in TouchPortal that issue macros, transmit 
-content that can also contain macros, and perform limited commands in the Entry
-window of this highly popular amateur radio contesting application. This is a 
-work-in-progress plugin, with the main goal of offering a customizable grid of 
-buttons that can reliably drive N1MM+ behavior, even when some other app such 
-as a browser or SDR front-end application is in focus on Windows. It's created 
-specifically with contesters in mind, in a way that permits multitasking on the 
-radio operator's shack PC while also having control over your contest activity.
+allowing the user to create custom buttons in TouchPortal to control the popular
+N1MM+ Logger ham radio contesting application for Windows.
+
+Custom button actions can currently perform these functions:
+- Execute macros directly in N1MM+, including CAT rig control behaviors
+- Transmit CW content and SSB wav files, which can also contain macros
+- Summon N1MM+ into the foreground and send arbitrary N1MM+ keystroke commands, including Ctrl/Alt/Shift
+
+
+This is a work-in-progress plugin, created 
+specifically with contesters in mind, in a way that eases multitasking on the 
+radio operator's shack PC while quickly allowing to regain control over your contest activity.
 
 This plugin accesses **experimental features** in N1MM+ to integrate external
 actions, courtesy of Tom N1MM.  This software may perform unexpectedly or stop 
@@ -22,46 +26,63 @@ contesters.  It is not intended to be a general purpose radio control toolkit.
 This plugin is not compatible with the earlier N1MM Logger Classic app.
 
 ## Installation instructions and User Guide
-...are being written right now.  Below are notes going into the instructions.
-Screenshots and walkthroughs are also to come.  For now, plenty to read here.
+...are being written right now. Screenshots and walkthroughs are also to come. 
+For now, here are some early notes for testers and developers.
 
 **Using this software has a one-time cost.** TouchPortal for Windows is free, 
-but the tablet/phone app must be purchased in-device on the Apple/Google store.
-At the time of this plugin's debut, it went for about $14 USD. If you switch 
-between Apple/Android, you have to buy it twice.  Choose first, or pay double!
-*YOU DO NOT NEED TO BUY ANY PRO PACK IN THE DESKTOP APP TO USE THIS PLUGIN!*
-I am not associated with TouchPortal, and I don't receive anything from them.
+and the tablet/phone app is a free install on the Apple/Google store, but you must pay for the 
+"Pro Upgrade" in the tablet application's in-app purchase in order to use plug-ins like this one. At the time of this plugin's debut, 
+the Pro Upgrade went for about $14 USD. If you switch between Apple/Android, you have to buy it twice. 
+I am not associated with TouchPortal, and I don't receive any funds from them.
 
-Start by installing TouchPortal for Windows from their website linked below.
-There aren't many settings during install, accepting the defaults is fine.
+Start by installing TouchPortal for Windows from:
+https://www.touch-portal.com/#downloadstitle
+All of the defaults are fine. There is a step to install ADB USB drivers, which
+come from Google and only run when you connect Android over USB (not WiFi).
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-installing.jpg)
+
 Reboot your PC after installation of TouchPortal, then start up TouchPortal.
 Since N1MM+ isn't officially on Mac, this plugin doesn't support Mac right now.
-https://www.touch-portal.com/#downloadstitle
 
-After rebooting and starting TouchPortal, complete the first setup wizard:
-- Select your language (the plugin is only in English for now), click Next.
-- Select Empty in the Apps choices if you want to start easily, click Next.
-- In the third screen, **do** check the "When you create a new page, a button 
-  is automatically added with a go back to the main page action", click Next.
-- An example screenshot will be shown to you instructing about the Windows 
-  Firewall settings needed.  Observe it and click Next.
-- A Windows Firewall Security window will pop up.  If you take your computer 
-  to public locations, you might consider turning off the "Public networks..."
-  checkbox, otherwise you can leave both checked. Accept the firewall request.
-- Read the next two screens and click Next, then Start, to begin connecting 
-  your tablet/smartphone device over WiFi (Android also supports USB cable).
-- The application will start and give you a "(main)" page with a couple of 
-  default introductory buttons.
-- TouchPortal is now set up.  If you close it, it's still running in the system
-  tray next to the Windows clock.  You can reopen/restart/exit from there.
-- By default TouchPortal does not start automatically. You can enable this in
-  TouchPortal's General settings using the gear icon at top right of the app.
+After rebooting, go to Windows Start menu and start Touch Portal.  You should 
+see a Windows Advanced Firewall dialog come up asking your permission to allow
+Touch Portal to receive connections.  **CLICK ACCEPT**, or you will not be able
+to make connections from your tablet to your PC.
+
+Upon starting TouchPortal, complete the setup wizard as follows:
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-1.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-2.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-3.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-4.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-5.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-setup-6.jpg)
+
+After starting up, you will have an empty "(main)" page with no button tiles.
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-first-startup.jpg)
+
+TouchPortal is now set up.  If you close it, it's still running in the system
+tray next to the Windows clock.  You can reopen/restart/exit from there.
+
+By default TouchPortal does not start automatically. If you want, you can enable
+auto startup in the application's settings menus.
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-open-settings.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-settings-scrolldown.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-settings-enable-autostart.jpg)
 
 Now you need a spare iPad or Android tablet to use at your shack desk.  It can
-even be a really old and tired one, this software supports some old versions of
-these devices. However, it's not the best security to have these a super-old 
-non-updated device on your WiFi all the time, so consider what's right for your
-needs and wallet.  Install TouchPortal from the Apple App or Android Play Store.
+even be somewhat old, this software supports some old versions of
+these devices. Install TouchPortal from the Apple App or Android Play Store.
 You can also use your smartphone, but the buttons will be pretty small.  Use 
 the TouchPortal documentation, website, and Discord chat group if needed to get
 your device connected to your PC, and confirm the default page buttons show up
