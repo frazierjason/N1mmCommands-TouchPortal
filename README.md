@@ -5,17 +5,22 @@
 
 This TouchPortal plugin integrates the N1MM Logger+ app by Tom Wagner N1MM, 
 allowing the user to create custom buttons in TouchPortal to control the popular
-N1MM+ Logger ham radio contesting application for Windows.
+N1MM+ Logger amateur radio contesting application for Windows.
 
 Custom button actions can currently perform these functions:
 - Execute macros directly in N1MM+, including CAT rig control behaviors
 - Transmit CW content and SSB wav files, which can also contain macros
-- Summon N1MM+ into the foreground and send arbitrary N1MM+ keystroke commands, including Ctrl/Alt/Shift
+- Summon N1MM+ into the foreground and send arbitrary N1MM+ keystroke commands, 
+  including Ctrl/Alt/Shift
 
+This is a work-in-progress plugin, created specifically with contesters in mind,
+in a way that eases multitasking on the radio operator's shack PC while quickly 
+allowing to regain control over your contest activity.  
 
-This is a work-in-progress plugin, created 
-specifically with contesters in mind, in a way that eases multitasking on the 
-radio operator's shack PC while quickly allowing to regain control over your contest activity.
+DISCLAIMER:  This plugin author takes no responsibility for anything you do with
+the plugin, including but not limited to PC issues, radio issues, equipment 
+damage, etc.  It is simply an extension of what you can already do with N1MM+ to
+drive your radio station's automated controls.
 
 This plugin accesses **experimental features** in N1MM+ to integrate external
 actions, courtesy of Tom N1MM.  This software may perform unexpectedly or stop 
@@ -29,16 +34,24 @@ This plugin is not compatible with the earlier N1MM Logger Classic app.
 ...are being written right now. Screenshots and walkthroughs are also to come. 
 For now, here are some early notes for testers and developers.
 
-**Using this software has a one-time cost.** TouchPortal for Windows is free, 
-and the tablet/phone app is a free install on the Apple/Google store, but you must pay for the 
-"Pro Upgrade" in the tablet application's in-app purchase in order to use plug-ins like this one. At the time of this plugin's debut, 
-the Pro Upgrade went for about $14 USD. If you switch between Apple/Android, you have to buy it twice. 
-I am not associated with TouchPortal, and I don't receive any funds from them.
+#### Prerequisites:
+- Windows 64-bit PC installation (no 32 bit) that already runs N1MM+ well enough
+  to control your rig in successful contesting activities
+- An iPad, Android tablet, or for test purposes an iPhone or Android phone that
+  has an account signed into its App/Play store and can make in-app purchases
+- Good WiFi connection shared by both your PC and your tablet, or optionally 
+  use a USB cable for Android without any WiFi
+- A one-time purchase in Apple App store or Google Play store, about $14 USD in 
+  January 2023, for TouchPortal's Pro Upgrade that enables plugin usage
+  - Buy it twice if you want both iPad and Android tablet
+  - I don't get any of this money, it goes to TouchPortal
 
 Start by installing TouchPortal for Windows from:
+
 https://www.touch-portal.com/#downloadstitle
-All of the defaults are fine. There is a step to install ADB USB drivers, which
-come from Google and only run when you connect Android over USB (not WiFi).
+
+The installer defaults are fine. There is a step to install ADB USB drivers, 
+which come from Google and only run if you connect Android over USB (not WiFi).
 
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-installing.jpg)
 
@@ -49,6 +62,8 @@ After rebooting, go to Windows Start menu and start Touch Portal.  You should
 see a Windows Advanced Firewall dialog come up asking your permission to allow
 Touch Portal to receive connections.  **CLICK ACCEPT**, or you will not be able
 to make connections from your tablet to your PC.
+
+(screenshot of firewall prompt TBD)
 
 Upon starting TouchPortal, complete the setup wizard as follows:
 
@@ -66,7 +81,7 @@ Upon starting TouchPortal, complete the setup wizard as follows:
 
 After starting up, you will have an empty "(main)" page with no button tiles.
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-first-startup.JPG)
+<img src=https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-first-startup.JPG width=00/>
 
 TouchPortal is now set up.  If you close it, it's still running in the system
 tray next to the Windows clock.  You can reopen/restart/exit from there.
@@ -80,44 +95,80 @@ auto startup in the application's settings menus.
 
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/c44d19b48e7f023a12974f01dbf38f448391ed0b/tp-settings-enable-autostart.jpg)
 
-Now you need a spare iPad or Android tablet to use at your shack desk.  It can
-even be somewhat old, this software supports some old versions of
-these devices. Install TouchPortal from the Apple App or Android Play Store.
-You can also use your smartphone, but the buttons will be pretty small.  Use 
-the TouchPortal documentation, website, and Discord chat group if needed to get
-your device connected to your PC, and confirm the default page buttons show up
-on your tablet/smartphone device.  If your tablet is on the same WiFi network 
-as your PC, the device app should automatically find your PC and connect after 
-you install and start it up.  You should see the "(main)" page buttons show 
-up on your device.
+On your tablet, double-check that you are connected to the same WiFi as your PC.
 
-After TouchPortal is connected, download on your PC the 
-N1MMCommands-TouchPortal-Release.tpp file from this GitHub project's page.
-(Or download the sources and build yourself in VS 2019 or later if you want.)
+Search for "TouchPortal" in the Apple App or Android Play Store.
+You can also use your smartphone, but the buttons will be pretty small.
+
+(screenshot for store search result TBD)
+
+If your tablet is on the same WiFi network as your PC, the device app should 
+automatically find your PC and connect after you install and start it up.  You 
+should see any "(main)" page button show up on your device (there are none set 
+up so far, so the tablet app will look fairly empty).
+
+(screenshot of empty looking tablet TP page)
+
+If your tablet cannot connect to your PC, it will prompt an error. Please refer 
+to the "Guides & Help" materials on TouchPortal's website to fix the issue and
+get your tablet connected to your PC, before any next steps or buying upgrades.
+
+https://www.touch-portal.com/faq.php?faqId=touch-portal-cannot-connect
+
+After TouchPortal is connected, look for the shopping cart icon near the top
+right area of the app UI.  Tap that and look for the "Pro Upgrade", which you 
+need to purchase in order to use any plugins with TouchPortal. Be ready to pay 
+and sign into the App Store or Play Store for your purchase. The license is 
+perpetual one-time, good for all your devices that use that same store account.
+
+(screenshots of finding the Pro Upgrade button on the tablet)
+
+On your PC, go to this Github project's Releases page and download the latest 
+released version of "N1mmCommands-TouchPortal-win-x64-Release.tpp" file. 
+You'll also want to download the latest "N1MM-Pages-Pack.zip" file. Remember 
+where you downloaded these files, usually in your Downloads folder.
+
 https://github.com/frazierjason/N1mmCommands-TouchPortal/releases
 
-Go to TouchPortal and click on the gear icon near the top right of the app. 
+In TouchPortal on your PC, click the gear icon at the top right of the app. 
 Select "Import plug-in...", then navigate to the .tpp file you just downloaded 
 and load the .tpp file. Choose "Trust Always" when asked, then click OK to 
 complete the plug-in installation.
 
-*If you get a .NET error or command line error of some kind:*
-You might need the obsolete .NET 5 Core libary, or a newer x86 version such as 
-.NET 6 or 7 core.  Most modern Windows 10/11 installations already have it, so 
-**Only install this if** you hit errors on the plugin's first start. Then you 
-must quit and restart TouchPortal from the system tray icon and confirm the 
-error doesn't reoccur.
-https://aka.ms/dotnet-core-applaunch?framework=Microsoft.NETCore.App&framework_version=5.0.0&arch=x86&rid=win10-x86
+(screenshots of importing a plugin)
 
-After the plug-in is installed, download the Pages sample pack .zip file from 
-the plugin releases page linked earlier above and unzip it on your PC. In 
-TouchPortal, click on the "Pages" tab and then click the gear icon that is 
+Immediately after installing the plugin, you will get another Firewall prompt,
+this time allowing the plugin to communicate with both N1MM+ and TouchPortal.
+You must accept this firewall prompt or the plugin will not function.
+
+(screenshot of plugin firewall prompt)
+
+After the plug-in is installed, it's running but not doing much for you yet.
+
+Open a Windows Explorer window and navigate to where your downloaded the plugin
+files earlier (probably Downloads folder). Extract the "N1MM-Pages-Pack.zip" 
+file that you downloaded.  If you don't have any extractor software, you can
+double click on the .zip file to open it in Windows Explorer, then select all of
+the .tpz files inside, right click, and select Copy.  Now nagivate back to your 
+Downloads folder and press Ctrl-V to paste all of the .tpz files. *You have to
+extract these files to a folder, TouchPortal cannot open the .zip file itself.*
+
+(screenshot of a folder with some .tpz files)
+
+In TouchPortal, click on the "Pages" tab and then click the gear icon that is 
 displayed just a few icons to the right of the page selection dropdown that 
-probably says "(main)". In the Pages gear icon, select "Import page" and 
-navigate to the location where you unzipped the Pages sample pack zip file.
-Choose "N1MM Quick Buttons.tpz" to install this page. When TouchPortal asks if 
+probably says "(main)". In the Pages gear icon, select "Import page".
+
+(screenshot of opening the Page Import dialog)
+
+Navigate to the location where you unzipped the Pages sample pack zip file.
+Choose "N1MM-Quick-Buttons.tpz" to install this page. When TouchPortal asks if 
 you want to see your new imported page, choose Yes.  Or you can select it from
 the dropdown.  You'll see some new buttons added in this page.
+
+(screenshots of importing the plugin and accepting dialogs)
+
+(screenshot of the Quick Buttons page loaded up)
 
 *BEFORE YOU DO ANYTHING ELSE,* or add any more pages, you should right-click on
 the "N1MM" logo'd button on this new page, and select Copy > Button.  Now click
@@ -125,26 +176,73 @@ on the Pages dropdown and select "(main)", then in any blank tile space on the
 (main) page, right click and select Paste > Button. This N1MM button you just 
 pasted will allow you to get to the other pages.
 
-Repeat the page import process for the other .tpz pages that you unzipped on 
-your PC earlier.  Don't import the Rotor page if you don't need it. Also, 
-the Radio Adjustment page contains CAT commands specific to certain rigs, so
+(screenshots of copy-pasting the N1MM button over to the empty (main page))
+
+Repeat the page import process for these additional .tpz pages that you unzipped
+on your PC earlier:
+- N1MM-Function-Keys.tpz
+- N1MM-Frequency-Control.tpz
+- N1MM-Run-Page.tpz
+
+You should now have all the basic sample button pages loaded, to control common
+actions in N1MM+ that generally apply to most connected rigs.
+
+(screenshot of the page list dropdown list)
+
+(screenshots of the remaining pages)
+
+IF YOU HAVE A NON-ICOM RIG that accepts CAT controls for N1MM+ to send commands 
+to the radio:
+
+It is possible to create buttons that control your rig via CAT commands. You can
+review the below information and page on how it's done for an ICOM SDR rig, and
+try to figure out how to create similar CAT actions for your own radio model. IF
+the ham community has suitable examples tested and offered up to share, I can 
+add them to this project for others' benefit and ease of use.
+
+IF YOU HAVE AN ICOM SDR TRANSCEIVER on Radio 1 in N1MM+:
+
+You can install the page "N1MM-Radio-Adjustments-RIG1-ICOM-SDRs.tpz" for more 
+advanced direct control of your rig features through N1MM+.  After installing 
+the page, change the ICOM CI-V rig address in the "Values" tab to match your 
+rig. Right-click the value named "N1MM CAT1 CIV ID (ICOM)". Change it to the two
+character code matching your ICOM rig settings.  Do not mess with any of the
+other values, they are updated live by the page buttons as they are used.
+
+(screenshot opening the Values tab in TouchPortal)
+
+(screenshot of the CI-V value being changed)
+
+The Radio Adjustment page contains CAT commands specific to certain rigs, so
 you should select the indicated rig that most closely matches yours to get 
 started, and then modify the CAT commands to your liking.  CAT command help 
-is beyond the scope of this README file.  
+is beyond this guide's scope. Initially, only an ICOM SDR CAT sample is created.
 
-At initial release, only one example Radio Adjustment Page is provided, which 
-should work with most modern ICOM SDR transceivers. It is configurable for your
-ICOM CI-V rig address by going to the "Values" tab and right-clicking the value 
-named "N1MM CAT1 CIV ID (ICOM)".  By default it is set to "94" which is the 
-usual value for an ICOM IC-7300. I don't have one of these, so I tested it 
-with value "A4" on my IC-705.  More example pages matching other rigs will 
-come as I get help from others.  I'll do one for Flex SmartSDR series as well.
+(screenshot of the ICOM radio adjustment page with all question marks)
+
+You'll see that most of the buttons have pairs of question marks.  The plugin 
+does not know the radio state for most of these buttons. What happens is, you 
+press the button you want to toggle, and it tells the radio (via N1MM+) to go 
+to the newly displayed status.  If you change the radio directly on its front 
+panel, the page buttons will not update to match. The next time you use the page
+button, it will again force the radio setting to match whatever shows after you 
+press the desired page button.
+
+(screenshot of half the radio adjustment page buttons populated)
+
+(stacked screenshot of cycling a button through its different states)
 
 You should have a bunch of buttons imported by now on several pages.  It should
 be plenty enough to get started using it. Study the button implementations by 
 clicking them on the desktop app and reviewing how they are made.  If you mess 
 up a button, you can always delete and reimport a whole page if you don't mind 
-losing your other changes. You can also create more pages and buttons yourself.
+losing your other changes. Or you can rename the messed-up page and reimport 
+the original, then transfer over the buttons you want to recover. You can also 
+create more pages and buttons yourself. It's a good idea to export your own page
+changes once you have something working that you're happy with, in case you need
+to recover your custom page changes later.
+
+(screenshot opening the page settings, click export, name the export)
 
 ## PLEASE TEST THE FOLLOWING:
 
@@ -188,7 +286,7 @@ https://n1mmwp.hamdocs.com/setup/keyboard-shortcuts/
 An example set of pages are provided to accomplish the following:
 - 
 
-## Alpha build number 1 instructions and known issues:
+## Alpha builds instructions and known issues:
 - Only the happy path scenario should be expected to work:
   - Start N1MM+ and make sure your rig is connected and functioning
   - Start TouchPortal, install this plugin .tpp file if not already
@@ -197,6 +295,10 @@ An example set of pages are provided to accomplish the following:
     if you have other TP needs and don't want to close TP.
   - N1MM+ can continue working, there is only loose integration via network
      messages.  This plugin does not share any files or resources with N1MM+.
+- Windows 32-bit is unsupported by TouchPortal, so no 32-bit plugin is offered.
+- Upgrade scenarios are somewhat tested for major issues, but there is no plugin
+  upgrade support at this time.  Uninstall and reinstall the plugin, your old
+  settings will be retained and reloaded automatically by TouchPortal.
 - Plugin has no UI, only notifications delivered inside the TP application.
   Current notifications only tell if an invalid IP or port number is entered
   into this plugin's settings, located within the TP Settings menu.
