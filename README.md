@@ -47,7 +47,20 @@ For now, here are some early notes for testers and developers.
   - Buy it twice if you want both iPad and Android tablet
   - I don't get any of this money, it goes to TouchPortal
 
-Start by installing TouchPortal for Windows from:
+Start by first enabling a Broadcast Data feature in N1MM+ application:
+- In N1MM+, go to the Config menu and select "Configure Ports, Mode Control, Winkey, etc ..."
+- Wait for the config window to appear. Click on the Broadcast Data tab near the far right.
+- Ensure to check the box called "Radio"
+  - If there is no text in the textbox to the right, set it to contain the phrase 
+    127.0.0.1:12060 with no spaces in it. This should already be the default though.
+- If the checkbox was ALREADY enabled when you got there:
+  - Consider why this is the case. Are you an advanced user? Do you already have any other 
+    apps integrated with N1MM+?  If so, you need to add into the right hand text box:  a 
+    space, followed by another phrase like 127.0.0.1:12061, or change the last digit or two 
+    a bit higher in numeric value.  Write this higher number down that you chose.
+- Click OK to save.  We'll come back to N1MM+ later if needed.
+
+Next, we'll install TouchPortal for Windows from:
 
 https://www.touch-portal.com/#downloadstitle
 
@@ -146,6 +159,19 @@ You must accept this firewall prompt or the plugin will not function.
 (screenshot of plugin firewall prompt)
 
 After the plug-in is installed, it's running but not doing much for you yet.
+
+If at the start of these instructions, your N1MM+ Broadcast Data "Radio" text
+value had the default of 127.0.0.1:12060, and you are not using any other kind 
+of integrated app with N1MM+, you can skip the next one paragraph.
+
+In this paragraph, we reconfigure the plugin for users that have multiple 
+integrated apps with N1MM+ that receive Radio UDP data over the network. 
+In TouchPortal for Windows, click the top right gear, then Settings, and in 
+the Settings UI, click Plugins near bottom left. Select this plugin in the 
+dropdown on right, and look for the setting named "N1MM+ RadioInfo Broadcast 
+Port". Change its default value of 12060 to your alternate port 12061 (or 
+whatever new number you added on earlier). Click Save.  You're done 
+reconfiguring the network port.
 
 Open a Windows Explorer window and navigate to where your downloaded the plugin
 files earlier (probably Downloads folder). Extract the "N1MM-Pages-Pack.zip" 
