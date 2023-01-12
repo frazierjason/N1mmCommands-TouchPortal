@@ -169,7 +169,7 @@ After the plug-in is installed, it's running but not doing much for you yet.
 
 If at the start of these instructions, your N1MM+ Broadcast Data "Radio" text
 value had the default of 127.0.0.1:12060, and you are not using any other kind 
-of integrated app with N1MM+, you can skip the next one paragraph and two screenshots.
+of integrated app with N1MM+, you can skip the next one paragraph and three screenshots.
 
 In this paragraph, we reconfigure the plugin for users that have multiple 
 integrated apps with N1MM+ that receive Radio UDP data over the network. 
@@ -183,6 +183,8 @@ reconfiguring the network port.
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-open-settings.JPG)
 
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-settings-reveal-plugin.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-plugin-settings-defaults.jpg)
 
 Open a Windows Explorer window and navigate to where your downloaded the plugin
 files earlier (probably Downloads folder). Extract the "N1MM-Pages-Pack.zip" 
