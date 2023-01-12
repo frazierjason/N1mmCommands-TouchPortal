@@ -104,9 +104,9 @@ auto startup in the application's settings menus.
 
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-open-settings.JPG)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/c44d19b48e7f023a12974f01dbf38f448391ed0b/tp-settings-scrolldown.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/e60efad44559207c8d1292b9de38d77ef9d70cba/tp-settings-scrolldown.jpg)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/c44d19b48e7f023a12974f01dbf38f448391ed0b/tp-settings-enable-autostart.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/e60efad44559207c8d1292b9de38d77ef9d70cba/tp-settings-enable-autostart.jpg)
 
 On your tablet, double-check that you are connected to the same WiFi as your PC.
 
