@@ -30,6 +30,21 @@ in the interests of stability for the competitive community of amateur radio
 contesters.  It is not intended to be a general purpose radio control toolkit.
 This plugin is not compatible with the earlier N1MM Logger Classic app.
 
+## Sample page screenshots
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/440434a0ff5fd753dd7740160b22a43e39adda87/tp-page-run-page.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/440434a0ff5fd753dd7740160b22a43e39adda87/tp-page-quick-buttons.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/440434a0ff5fd753dd7740160b22a43e39adda87/tp-page-function-keys.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/440434a0ff5fd753dd7740160b22a43e39adda87/tp-page-frequency-control.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/e21a94ce8c5c0059e81d1f0907538bd6163f287f/tp-page-radio-adjustment.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/440434a0ff5fd753dd7740160b22a43e39adda87/tp-page-rotor-control.jpg)
+
+
 ## Installation instructions and User Guide
 ...are being written right now. Screenshots and walkthroughs are also to come. 
 For now, here are some early notes for testers and developers.
