@@ -184,7 +184,7 @@ reconfiguring the network port.
 
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-settings-reveal-plugin.jpg)
 
-![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-plugin-settings-defaults.jpg)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-plugin-settings-defaults.JPG)
 
 Open a Windows Explorer window and navigate to where your downloaded the plugin
 files earlier (probably Downloads folder). Extract the "N1MM-Pages-Pack.zip" 
