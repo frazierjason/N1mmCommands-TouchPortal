@@ -311,6 +311,8 @@ https://n1mmwp.hamdocs.com/setup/keyboard-shortcuts/
 
 
 ## Alpha builds instructions and known issues:
+- Active and closed issues are reported on the project Issues page:
+  https://github.com/frazierjason/N1mmCommands-TouchPortal/issues
 - Only the happy path scenario should be expected to work:
   - Start N1MM+ and make sure your rig is connected and functioning
   - Start TouchPortal, install this plugin .tpp file if not already
