@@ -70,7 +70,6 @@ which come from Google and only run if you connect Android over USB (not WiFi).
 ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-installing.jpg)
 
 Reboot your PC after installation of TouchPortal, then start up TouchPortal.
-Since N1MM+ isn't officially on Mac, this plugin doesn't support Mac right now.
 
 After rebooting, go to Windows Start menu and start Touch Portal.  You should 
 see a Windows Advanced Firewall dialog come up asking your permission to allow
@@ -309,10 +308,7 @@ by hams with the Send Message functionality (which works even if N1MM+
 is backgrounded).  N1MM+ keystroke bindings are documented at:
 https://n1mmwp.hamdocs.com/setup/keyboard-shortcuts/
 
-### Sample pages are provided
 
-An example set of pages are provided to accomplish the following:
-- 
 
 ## Alpha builds instructions and known issues:
 - Only the happy path scenario should be expected to work:
@@ -323,40 +319,10 @@ An example set of pages are provided to accomplish the following:
     if you have other TP needs and don't want to close TP.
   - N1MM+ can continue working, there is only loose integration via network
      messages.  This plugin does not share any files or resources with N1MM+.
-- Windows 32-bit is unsupported by TouchPortal, so no 32-bit plugin is offered.
-- Upgrade scenarios are somewhat tested for major issues, but there is no plugin
-  upgrade support at this time.  Uninstall and reinstall the plugin, your old
-  settings will be retained and reloaded automatically by TouchPortal.
-- Plugin has no UI, only notifications delivered inside the TP application.
-  Current notifications only tell if an invalid IP or port number is entered
-  into this plugin's settings, located within the TP Settings menu.
-- Plugin only does simple suppression of action attempts before N1MM+ has
-  been started.
-- Plugin is unware if the rig connection is busted, or if N1MM+ has quitted.
-- Logic for handling dual radios (rigs) is very much alpha stage. Plugin can 
-  track which rig is the active one and send commands there, but does not yet
-  offer targeting a specific rig. Well-characterized bug reports are welcome.
-- Plugin is unaware of any N1MM config states, it doesn't know your different 
-  .ini files and can't detect what rigs are connected. It's up to you to make
-  sure any rig-specific CAT commands are correct for your rig(s).  You can 
-  create different TP pages for different rigs and switch between on your own.
-- Plugin is unaware if N1MM+ is terminated and restarted with a different rig 
-  setup.  Changing between single rig configs should not be an issue, but if 
-  changing from a two-rig config to a one-rig config, the plugin will still 
-  think there is a second rig until the plugin is restarted (or restart TP).
-  There should not be any ill effect with this since the plugin doesn't
-  offer rig selection or targeting an action to a specific rig, you simply 
-  interact with whatever rig is in focus in N1MM+ already.
 - Plugin comes configured by default for single-op single-rig setup using 
   UDP Broadcast messages enabled in N1MM.
-- Occasionally N1MM+ will alert in the taskbar, but does not come to the 
-  foreground as expected.  The keypress seems to be processed successfully.
-  This was noticed when the TP app was in the foreground and being edited.
 - You must set your broadcast IPs/ports adequately if you are in a multi-op  
   multi-PC network.  You're on your own for this, consult the N1MM+ forums.
-- This plugin is designed for Windows only, using .NET 5 Core APIs. If there 
-  is a large enough user base running N1MM+ in Wine or similar on Linux/Mac,
-  efforts could be made to slightly adapt this plugin to start without issue.
 - Plugin files are stored at this variable-expanding location
   `%APPDATA%\TouchPortal\plugins\N1mmCommands-TouchPortal\`
   (for example)
