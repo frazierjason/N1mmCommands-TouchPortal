@@ -149,19 +149,27 @@ Select "Import plug-in...", then navigate to the .tpp file you just downloaded
 and load the .tpp file. Choose "Trust Always" when asked, then click OK to 
 complete the plug-in installation.
 
-(screenshots of importing a plugin)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-open-import-plugin.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-import-plugin.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-import-plugin-tpp.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-importing-plugin-tpz.jpg)
 
 Immediately after installing the plugin, you will get another Firewall prompt,
 this time allowing the plugin to communicate with both N1MM+ and TouchPortal.
 You must accept this firewall prompt or the plugin will not function.
 
-(screenshot of plugin firewall prompt)
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-installing-plugin-trust-always.jpg)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-import-plugin-success.jpg)
 
 After the plug-in is installed, it's running but not doing much for you yet.
 
 If at the start of these instructions, your N1MM+ Broadcast Data "Radio" text
 value had the default of 127.0.0.1:12060, and you are not using any other kind 
-of integrated app with N1MM+, you can skip the next one paragraph.
+of integrated app with N1MM+, you can skip the next one paragraph and two screenshots.
 
 In this paragraph, we reconfigure the plugin for users that have multiple 
 integrated apps with N1MM+ that receive Radio UDP data over the network. 
@@ -171,6 +179,10 @@ dropdown on right, and look for the setting named "N1MM+ RadioInfo Broadcast
 Port". Change its default value of 12060 to your alternate port 12061 (or 
 whatever new number you added on earlier). Click Save.  You're done 
 reconfiguring the network port.
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-open-settings.JPG)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/1d6f2d12794f7580d13c18ed9582d503ddcf0cf5/tp-settings-reveal-plugin.jpg)
 
 Open a Windows Explorer window and navigate to where your downloaded the plugin
 files earlier (probably Downloads folder). Extract the "N1MM-Pages-Pack.zip" 
