@@ -179,6 +179,31 @@
             }
           ]
         }
+      ],
+      "states": [
+        {
+          "id": "n1mm.states.radioConnectionState",
+          "type": "text",
+          "desc": "Indicate which radios N1MM+ is reporting to the plugin",
+          "default": "Awaiting N1MM+",
+          "parentGroup": "Integration Status",
+          "valueChoices": [
+            "Awaiting N1MM+",
+            "Radio 1",
+            "Radio 1 of 2",
+            "Radio 2 of 2"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "id": "n1mm.events.radioConnectionEvent",
+          "name": "What radio connection state was detected from N1MM+",
+          "format": "Radio Connection State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radioConnectionState"
+        }
       ]
     }
   ]

@@ -13,6 +13,8 @@ using System.Xml.Serialization;
 
 namespace N1mmCommands.Touchportal
 {
+    // represent N1MM+ RadioInfo messages, as documented to be sent every ten seconds or less
+    // https://n1mmwp.hamdocs.com/appendices/external-udp-broadcasts/
     // special handling for xsd:boolean noncompliant Pascal-cased True/False, courtesy of
     // https://stackoverflow.com/questions/10511835/xml-serialization-error-on-bool-types
     public class RadioInfo
@@ -20,7 +22,46 @@ namespace N1mmCommands.Touchportal
         // all property accessors in any one instance of this object provide thread safety
         // we allow many reads but self-lock on write, as per example
         // https://learn.microsoft.com/en-us/dotnet/api/system.threading.readerwriterlockslim?view=net-5.0
+        [XmlIgnore]
         private ReaderWriterLockSlim cacheLock = new();
+
+        // init on creation (just before XmlSerialization occurs), to track staleness of overall object
+        // and callers should use refresh() if a property has to be updated afterwards
+        [XmlIgnore]
+        private long _refreshTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        [XmlIgnore]
+        public long refreshTime
+        {
+            get
+            {
+                cacheLock.EnterReadLock();
+                try { return _refreshTime; }
+                finally { cacheLock.ExitReadLock(); }
+            }
+        }
+        public void refresh()
+        {
+            cacheLock.EnterWriteLock();
+            _refreshTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            cacheLock.ExitWriteLock();
+        }
+
+        [XmlIgnore]
+        private bool _isInvalidated;
+        [XmlIgnore]
+        public bool isInvalidated
+        {
+            get
+            {
+                cacheLock.EnterReadLock();
+                try { return _isInvalidated; }
+                finally { cacheLock.ExitReadLock(); }
+            }
+        }
+        public void invalidate()
+        {
+            _isInvalidated = true;
+        }
 
         [XmlIgnore]
         private string _app;

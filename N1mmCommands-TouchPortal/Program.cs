@@ -32,12 +32,24 @@ namespace N1mmCommands.Touchportal
                 return;
             }
 
+
+            IConfigurationRoot configurationRoot;
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            string appBaseDirectory = AppContext.BaseDirectory;
+            System.IO.DirectoryInfo? parentDirectory = System.IO.Directory.GetParent(appBaseDirectory);
+            string basePath = parentDirectory.FullName;
+            configurationBuilder.SetBasePath(basePath);
+            configurationBuilder.AddJsonFile("appsettings.json", false, true);
+            configurationRoot = configurationBuilder.Build();
+
+            /*
             var configurationRoot = new ConfigurationBuilder()
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
               .SetBasePath(System.IO.Directory.GetParent(AppContext.BaseDirectory).FullName)
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
               .AddJsonFile("appsettings.json", false, true)
               .Build();
+            */
 
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 

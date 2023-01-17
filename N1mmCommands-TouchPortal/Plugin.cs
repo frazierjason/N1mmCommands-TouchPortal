@@ -61,6 +61,12 @@ namespace N1mmCommands.Touchportal
             _logger = logger ?? null;
             _logger?.LogInformation("Plugin(): Created client");
 
+            // our radios start out empty, so set them as invalid for use
+            _radioInfo[0] = new RadioInfo();
+            _radioInfo[0].invalidate();
+            _radioInfo[1] = new RadioInfo();
+            _radioInfo[1].invalidate();
+
             _commandSock = new System.Net.Sockets.Socket(
                 System.Net.Sockets.AddressFamily.InterNetwork,
                 System.Net.Sockets.SocketType.Dgram,
@@ -94,6 +100,8 @@ namespace N1mmCommands.Touchportal
                 Environment.Exit(1);
             }
             _logger?.LogInformation("Run(): Connected to TouchPortal. Wait for settings before starting to receive N1MM+ messages...");
+
+            _client.StateUpdate("n1mm.states.radioConnectionState", "Awaiting N1MM+");
 
             _shouldReconfigureN1mmSockets = true;
             while (null == _n1mmRadioInfoBroadcastIP || 0 == _n1mmRadioInfoBroadcastPort || 0 == _n1mmRadioCmdListenerPort)
@@ -153,6 +161,12 @@ namespace N1mmCommands.Touchportal
                     {
                         byte[] receivedResult = Array.Empty<byte>();
 
+                        // during the forever loop waiting to get UDP messages, check if we have no usable radioInfo objects roughly every 100mS
+                        // or so, which works out to once every ten times through the loop.  radioInfo objects are not usable if they are null,
+                        // or if the last time they were updated was >15 seconds ago (informal agreement with N1MM+ dev team).  clean up any
+                        // stale radios.
+                        ushort lazyWatchdogCounter = 0;
+
                         // https://stackoverflow.com/questions/5932204/c-sharp-udp-listener-un-blocking-or-prevent-revceiving-from-being-stuck
                         while (true)
                         {
@@ -168,17 +182,83 @@ namespace N1mmCommands.Touchportal
                                     break;
                                 }
                                 System.Threading.Thread.Sleep(10); // wait a little, keep our CPU usage down
+                                // watchdog wakes up every tenth cycle (100+ mS), and checks for staleness if we have at least one radioInfo object
+                                //
+                                // the watchdog also takes care of cleaning up radio states and resyncing the state with TP as needed
+                                if (++lazyWatchdogCounter < 9)
+                                {
+                                    lazyWatchdogCounter = 0;
+                                    long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                    if (!_radioInfo[0].isInvalidated)
+                                    {
+                                        if (now - _radioInfo[0].refreshTime > 15000)
+                                        {
+                                            _radioInfo[0].invalidate();
+                                            _radioInfo[1].invalidate();
+                                            _hasSecondRadio = false;
+                                            _currentRadioIdx = 0;
+                                            _client.StateUpdate("n1mm.states.radioConnectionState", "Awaiting N1MM+");
+                                            logger?.LogInformation("ReceiveMessage(): waited >15 seconds for N1MM+ to send us more UDP datagrams, no radios connected\n");
+                                        }
+                                        else
+                                        {
+                                            // we still have an alive Radio 1, so let's now check Radio 2
+                                            if (!_radioInfo[1].isInvalidated)
+                                            {
+                                                if (now - _radioInfo[1].refreshTime > 15000)
+                                                {
+                                                    _radioInfo[1].invalidate();
+                                                    _hasSecondRadio = false;
+                                                    _currentRadioIdx = 0;
+                                                    _client.StateUpdate("n1mm.states.radioConnectionState", "Radio 1");
+                                                    logger?.LogInformation("ReceiveMessage(): Radio 2 sent no data for >15 seconds, marking as disconnected\n");
+                                                }
+                                                else
+                                                {
+                                                    // and we still have an alive Radio 2
+                                                    if (!_hasSecondRadio)
+                                                    {
+                                                        _hasSecondRadio = true;
+                                                        // use the freshest radio's data
+                                                        int activeRadio = (_radioInfo[0].refreshTime > _radioInfo[1].refreshTime ? _radioInfo[0] : _radioInfo[1]).ActiveRadioNr;
+                                                        _client.StateUpdate("n1mm.states.radioConnectionState", $"Radio {activeRadio} of 2");
+                                                        logger?.LogDebug("ReceiveMessage(): set an unexpectedly cleared _hasSecondRadio flag when Radio 2 was already init'd\n");
+                                                    }
+                                                }
+                                            }
+                                            else if (_hasSecondRadio)
+                                            {
+                                                _hasSecondRadio = false;
+                                                logger?.LogDebug("ReceiveMessage(): cleared an unexpected _hasSecondRadio flag when Radio 2 was already invalidated\n");
+                                            }
+                                        }
+                                    }
+                                    else if (_hasSecondRadio || !_radioInfo[1].isInvalidated)
+                                    {
+                                        _radioInfo[1].invalidate();
+                                        _hasSecondRadio = false;
+                                        _currentRadioIdx = 0;
+                                        _client.StateUpdate("n1mm.states.radioConnectionState", "Radio 1");
+                                        logger?.LogDebug("ReceiveMessage(): cleaned up Radio 2 or _hasSecondRadio unexpectedly when Radio 1 was already invalidated\n");
+                                    }
+                                }
                             }
                             catch
                             {
                                 // something bad happened, clean up the socket and get a new one until we have more exceptional finesse here
                                 udpClient.Close();
                                 _shouldReconfigureN1mmSockets = true;
+
+                                _radioInfo[0].invalidate();
+                                _radioInfo[1].invalidate();
+                                _hasSecondRadio = false;
+                                _client.StateUpdate("n1mm.states.radioConnectionState", "Awaiting N1MM+");
                             }
                         }
                         if (true == _shouldReconfigureN1mmSockets)
                         {
                             // don't attempt to read any (more) UDP data even if we have some bytes, since it's time to change the socket out
+                            // our radio info will be invalid, so purge it all now
                             continue;
                         }
 
@@ -212,7 +292,7 @@ namespace N1mmCommands.Touchportal
                                 // must've been a well-formed document if we made it here
                                 logger?.LogTrace($"ReceiveMessage(): Received deserializable RadioInfo message data for RadioNr {newRadioIdx + 1}:\n,{System.Text.Encoding.ASCII.GetString(receivedResult)}\n");
 
-                                if (null == _radioInfo || null == _radioInfo[newRadioIdx])
+                                if (null == _radioInfo || null == _radioInfo[newRadioIdx] || _radioInfo[newRadioIdx].isInvalidated)
                                 {
                                     logger?.LogInformation($"ReceiveMessage(): will init data for RadioNr {newRadioIdx + 1} from deserialized RadioInfo message data.\n");
                                 }
@@ -231,29 +311,92 @@ namespace N1mmCommands.Touchportal
 
                         if (null != newRadioInfo)
                         {
-                            
-                            if (null == _radioInfo[newRadioIdx] || newRadioInfo.EntryWindowHwnd != _radioInfo[newRadioIdx].EntryWindowHwnd)
+                            // track active radio state only for connected radios, and for "Manual" fake-it radios since those always send false IsConnected status
+                            if (newRadioInfo.IsConnected || "Manual" == newRadioInfo.RadioName) // assuming "manual" does not get localized to other languages?
                             {
-                                logger?.LogInformation($"ReceiveMessage(): got new RadioInfo HWND on radio {newRadioIdx + 1}: {newRadioInfo.EntryWindowHwnd.ToString()} (0x{newRadioInfo.EntryWindowHwnd:X})\n");
-                            }
-
-                            if (null == _radioInfo[newRadioIdx] || newRadioInfo.Freq != _radioInfo[newRadioIdx].Freq)
-                            {
-                                logger?.LogInformation($"ReceiveMessage(): got new RadioInfo Freq on radio {newRadioIdx + 1}: {newRadioInfo.Freq.ToString()}\n");
-                            }
-
-                            if (newRadioInfo.ActiveRadioNr - 1 != _currentRadioIdx)
-                            {
-                                _currentRadioIdx = (ushort)(newRadioInfo.ActiveRadioNr - 1);
-                                if (false == _hasSecondRadio && 1 == _currentRadioIdx)
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.EntryWindowHwnd != _radioInfo[newRadioIdx].EntryWindowHwnd)
                                 {
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo HWND on radio {newRadioIdx + 1}: {newRadioInfo.EntryWindowHwnd.ToString()} (0x{newRadioInfo.EntryWindowHwnd:X})\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.Freq != _radioInfo[newRadioIdx].Freq)
+                                {
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo Freq on radio {newRadioIdx + 1}: {newRadioInfo.Freq.ToString()}\n");
+                                }
+
+                                if (newRadioInfo.ActiveRadioNr - 1 != _currentRadioIdx || (_radioInfo[0].isInvalidated && _radioInfo[1].isInvalidated))
+                                {
+                                    // we're either switching radios, or transitioniong from no-radio to radio-having state
+                                    _currentRadioIdx = (ushort)(newRadioInfo.ActiveRadioNr - 1);
+
+                                    // become two-radio aware ONLY if we already had Radio 1, and we are processing a Radio 2 message
+                                    // it is not sufficient to receive only a Radio 1 message saying Radio 2 is active, if we don't have any Radio 2 info
+                                    if (!_hasSecondRadio && 2 == newRadioInfo.RadioNr)
+                                    {
+                                        _hasSecondRadio = true;
+                                    }
+                                    
+                                    if (_hasSecondRadio)
+                                    {
+                                        _client.StateUpdate("n1mm.states.radioConnectionState", $"Radio {newRadioInfo.ActiveRadioNr} of 2");
+                                    }
+                                    else
+                                    {
+                                        _client.StateUpdate("n1mm.states.radioConnectionState", $"Radio {newRadioInfo.ActiveRadioNr}");
+                                    }
+                                    logger?.LogInformation($"ReceiveMessage(): switching Active radio to {newRadioInfo.ActiveRadioNr}\n");
+                                }
+                                
+                                if (!_hasSecondRadio && 2 == newRadioInfo.RadioNr)
+                                {
+                                    // we now have a new second radio
                                     _hasSecondRadio = true;
                                 }
-                                logger?.LogInformation($"ReceiveMessage(): switching Active radio to {newRadioInfo.ActiveRadioNr}\n");
-                            }
 
-                            // _radioInfo implements its own internal ReaderWriterLockSlim thread safety, many readers but only one writer at a time
-                            _radioInfo[newRadioInfo.RadioNr == 1 ? 0 : 1] = newRadioInfo;
+                                // _radioInfo members implement an internal ReaderWriterLockSlim thread safety, many readers but only one writer at a time
+                                _radioInfo[newRadioIdx] = newRadioInfo;
+
+                                if (!_radioInfo[0].isInvalidated && !_radioInfo[1].isInvalidated)
+                                {
+                                    // we have two radios, but the status messages don't arrive in an atomically processable fashion
+                                    // quietly sync a few singleton values in N1MM+ that show up in both radios, but do not freshen up the other radio's
+                                    // refresh timestamp.  we have a time gap between getting them both and need to ensure no conflicts on singleton data
+                                    int otherRadioIdx = 1 & ~newRadioIdx;  // bitwise flip zero to one, or vice versa
+                                    _radioInfo[otherRadioIdx].ActiveRadioNr = _radioInfo[newRadioIdx].ActiveRadioNr;
+                                    _radioInfo[otherRadioIdx].FocusEntry = _radioInfo[newRadioIdx].FocusEntry;
+                                    _radioInfo[otherRadioIdx].FocusRadioNr = _radioInfo[newRadioIdx].FocusRadioNr;
+                                }
+                            }
+                            else
+                            {
+                                // we have a departing (IsConnected false) radio -- let's update and then invalidate our object that represents it
+                                if (0 == newRadioIdx || _radioInfo[0].isInvalidated)
+                                {
+                                    _radioInfo[0] = newRadioInfo;
+                                    // losing Radio 1, or having already lost it, means Radio 2 is also gone and ignoreable
+                                    _radioInfo[0].invalidate();
+                                    _client.StateUpdate("n1mm.states.radioConnectionState", "Awaiting N1MM+");
+                                    if (!_radioInfo[1].isInvalidated)
+                                    {
+                                        _radioInfo[1].invalidate();
+                                        logger?.LogInformation("ReceiveMessage(): Radio 1 has indicated a disconnection, so also invalidating existing Radio 2\n");
+                                    }
+                                    else
+                                    {
+                                        logger?.LogInformation("ReceiveMessage(): Radio 1 has indicated a disconnection\n");
+                                    }
+                                }
+                                else
+                                {
+                                    // getting here means it must be only Radio 2 that's departing
+                                    _radioInfo[1] = newRadioInfo;
+                                    _radioInfo[1].invalidate();
+                                    _client.StateUpdate("n1mm.states.radioConnectionState", "Radio 1");
+                                    logger?.LogInformation("ReceiveMessage(): Radio 2 has indicated a disconnection\n");
+                                }
+                                _hasSecondRadio = false;
+                                _currentRadioIdx = 0;
+                            }
                         }
                         else
                         {
@@ -270,7 +413,11 @@ namespace N1mmCommands.Touchportal
                         udpClient?.Close();
                         return;
                     }
-                    _shouldReconfigureN1mmSockets = false;
+                    _client.StateUpdate("n1mm.states.radioConnectionState", $"Awaiting N1MM+");
+                    _radioInfo[0].invalidate();
+                    _radioInfo[1].invalidate();
+                    _hasSecondRadio = false;
+                    _shouldReconfigureN1mmSockets = false; // finished resetting, will start over on next loop cycle
                 }
             });
         }
@@ -481,9 +628,13 @@ namespace N1mmCommands.Touchportal
         {
             if (null == message)
                 return;
-            if (true == _isClosing || true == _shouldReconfigureN1mmSockets || null == _radioInfo || null == _radioInfo[_currentRadioIdx] || null == _commandSockEndpoint)
+            
+            RadioInfo radioAtEventTime = _radioInfo[_currentRadioIdx]; // work with whatever we found at call time, so it doesn't change on update
+            
+            if (true == _isClosing || true == _shouldReconfigureN1mmSockets || null == radioAtEventTime || 
+                radioAtEventTime.isInvalidated  || null == _commandSockEndpoint)
             {
-                _logger?.LogInformation("OnActionEvent(): No RadioInfo data available yet, waiting for N1MM+, discarding incoming Action message.\n");
+                _logger?.LogInformation("OnActionEvent(): No RadioInfo data available yet, or current radio is disconnected.  Waiting for N1MM+ and discarding incoming Action message.\n");
             }
             else if (message.Type == "closePlugin")
             {
@@ -520,7 +671,7 @@ namespace N1mmCommands.Touchportal
                         // build the full UDP command string in a performant way, without using String.Format or similarly slow approaches.
                         // try to do all our string length counts early, and minimize repeated read of strings from objects
                         int prefixLength = (1 == _currentRadioIdx ? N1MM_RADIOCMD_PREFIX_FOR_RADIO1 : N1MM_RADIOCMD_PREFIX_FOR_RADIO2).Length;
-                        int focusEntry = _radioInfo[_currentRadioIdx].EntryWindowHwnd; // matches _r[_cr].FocusEntry only if _currentRadio is the ActiveRadio
+                        int focusEntry = radioAtEventTime.EntryWindowHwnd; // matches _r[_cr].FocusEntry only if _currentRadio is the ActiveRadio
                         int focusEntryLength;
                         // most performant way of counting an Int32 Base10 length with sign, per https://stackoverflow.com/questions/4483886
                         if (focusEntry >= 0)
@@ -560,7 +711,7 @@ namespace N1mmCommands.Touchportal
                             0, command, 0, prefixLength);
 
                         System.Buffer.BlockCopy(
-                            System.Text.Encoding.ASCII.GetBytes(_radioInfo[_currentRadioIdx].EntryWindowHwnd.ToString()),  // there should be a faster way than this
+                            System.Text.Encoding.ASCII.GetBytes(radioAtEventTime.EntryWindowHwnd.ToString()),  // there should be a faster way than this
                             0, command, prefixLength, focusEntryLength);
 
                         System.Buffer.BlockCopy(
@@ -589,7 +740,7 @@ namespace N1mmCommands.Touchportal
                             bool allowbg = message.Data.GetValueOrDefault("n1mm.commands.tp.sendKeys.press.Data.allowbg", "Off").Equals("On");
 
                             // _r[_cr].EntryWindowHwnd matches _r[_cr].FocusEntry only if _currentRadio is the ActiveRadio
-                            int targetHwnd = _radioInfo[_currentRadioIdx].EntryWindowHwnd;
+                            int targetHwnd = radioAtEventTime.EntryWindowHwnd;
 
                             // use VK_APPS as a dictionary miss fallthrough (aka the Context Menu key, which is not used by N1MM+ and not present in Entry.tp)
                             InputSimulatorEx.Native.VirtualKeyCode vk =
@@ -676,7 +827,7 @@ namespace N1mmCommands.Touchportal
                                         vk);
                                 }
                             }
-                            _logger?.LogDebug($"OnActionEvent(): Foregrounded N1MM+ radio {_currentRadioIdx} at {_radioInfo[_currentRadioIdx].EntryWindowHwnd} and sent keystrokes.\n");
+                            _logger?.LogDebug($"OnActionEvent(): Foregrounded N1MM+ radio {_currentRadioIdx} at {radioAtEventTime.EntryWindowHwnd} and sent keystrokes.\n");
                         }
                         else
                         {
@@ -689,6 +840,7 @@ namespace N1mmCommands.Touchportal
                         break;
                 }
             }
+
             if (null != message.Data && message.Data.Count > 0)
             {
                 _logger?.LogDebug($"OnActionEvent(): finished processing Action event: {message.Type}, {message.ActionId}, {message.Data.First().Key}, {message.Data.First().Value}\n");
@@ -714,7 +866,7 @@ namespace N1mmCommands.Touchportal
                         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                         {
                             UseShellExecute = true,
-                            FileName = "https://www.neveroddoreven.com/n1mm-commands-touchportal/settings/"
+                            FileName = "https://github.com/frazierjason/N1mmCommands-TouchPortal#readme"
                         });
                         break;
                 }
