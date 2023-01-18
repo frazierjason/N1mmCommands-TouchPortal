@@ -185,7 +185,7 @@ namespace N1mmCommands.Touchportal
                                 // watchdog wakes up every tenth cycle (100+ mS), and checks for staleness if we have at least one radioInfo object
                                 //
                                 // the watchdog also takes care of cleaning up radio states and resyncing the state with TP as needed
-                                if (++lazyWatchdogCounter < 9)
+                                if (++lazyWatchdogCounter > 9)
                                 {
                                     lazyWatchdogCounter = 0;
                                     long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
