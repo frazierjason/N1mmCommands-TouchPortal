@@ -146,9 +146,10 @@ https://www.touch-portal.com/faq.php?faqId=touch-portal-cannot-connect
 
 After TouchPortal is connected, look for the shopping cart icon near the top
 right area of the app UI.  Tap that and look for the "Pro Upgrade", which you 
-need to purchase in order to use any plugins with TouchPortal. Be ready to pay 
-and sign into the App Store or Play Store for your purchase. The license is 
-perpetual one-time, good for all your devices that use that same store account.
+need to purchase in order to use any plugins with TouchPortal. Be ready to sign 
+into the App Store or Play Store and pay for your purchase. The liceense is
+perpetual and subscription-free, good for all your devices that use that same 
+App Store or Play Store account.
 
 (screenshots of finding the Pro Upgrade button on the tablet)
 
@@ -229,8 +230,9 @@ the dropdown.  You'll see some new buttons added in this page.
 *BEFORE YOU DO ANYTHING ELSE,* or add any more pages, you should right-click on
 the "N1MM" logo'd button on this new page, and select Copy > Button.  Now click
 on the Pages dropdown and select "(main)", then in any blank tile space on the 
-(main) page, right click and select Paste > Button. This N1MM button you just 
-pasted will allow you to get to the other pages.
+(main) page, right click and select Paste > Button.  Drag your pasted button 
+down to the bottom right corner of the blank "(main)" page.  This N1MM button 
+you just pasted will soon allow you to get to the other pages.
 
 (screenshots of copy-pasting the N1MM button over to the empty (main page))
 
@@ -246,6 +248,36 @@ actions in N1MM+ that generally apply to most connected rigs.
 (screenshot of the page list dropdown list)
 
 (screenshots of the remaining pages)
+
+Now that your pages are set up and you have an N1MM+ button on your (main) page,
+look at the TouchPortal app on your tablet.  You should just see the one N1MM+
+button that you copied over.  When viewed on the tablet only, the N1MM+ button 
+logo is dynamic and shows different states detected by the plugin.  If the 
+plugin is not receiving Radio messages from N1MM+, it will turn orange with a 
+big red X to tell you something is off.  (see the earlier section about setting
+up the Radio broadcasts)
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/fdb77164d2186d1d4c7273b8f3cb73eea8ace934/tp-pages-n1mm-indicator-awaiting-n1mm.jpg)
+
+If N1MM+ is sending the Radio UDP broadcast messages and the plugin gets them, 
+and if you have just one radio connected, you will see the normal N1MM+ icon.
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/fdb77164d2186d1d4c7273b8f3cb73eea8ace934/tp-pages-n1mm-indicator-connected-radio-1.jpg)
+
+If you have two radios connected, you'll see something slightly different. The
+N1MM red plus will jump down to being above the left M when your active radio 
+for transmitting is Radio 1 (and all your actions will go there), and it will 
+move over the right M when you've selected Radio 2 for transmission.
+
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/fdb77164d2186d1d4c7273b8f3cb73eea8ace934/tp-pages-n1mm-indicator-connected-radio-1-of-2.jpg)  ![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/fdb77164d2186d1d4c7273b8f3cb73eea8ace934/tp-pages-n1mm-indicator-connected-radio-2-of-2.jpg)
+
+There is currently no indication of PTT status or other features.  This button
+is used to indicate if there's a problem, and/or tell you which radio you're
+using, and if you press this button it will always bring you to the Quick 
+Launch page for jumping to other N1MM+ pages.  If you create more custom pages
+you can add launcher buttons here to jump to those other pages you create.
+
+#### Custom pages for directly executing radio commands by CAT control
 
 IF YOU HAVE A NON-ICOM RIG that accepts CAT controls for N1MM+ to send commands 
 to the radio:
