@@ -184,8 +184,10 @@ You must accept this firewall prompt or the plugin will not function.
 After the plug-in is installed, it's running but not doing much for you yet.
 
 If at the start of these instructions, your N1MM+ Broadcast Data "Radio" text
-value had the default of 127.0.0.1:12060, and you are not using any other kind 
-of integrated app with N1MM+, you can skip the next one paragraph and three screenshots.
+value had the default of 127.0.0.1:12060 (in other words, you only enabled it
+and didn't need to change the numbers), and if you are not using any other kind 
+of integrated app with N1MM+, you can skip the next one paragraph and three 
+screenshots.
 
 In this paragraph, we reconfigure the plugin for users that have multiple 
 integrated apps with N1MM+ that receive Radio UDP data over the network. 
