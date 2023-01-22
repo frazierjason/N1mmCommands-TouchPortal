@@ -178,6 +178,35 @@
               "default": "false"
             }
           ]
+        },
+        {
+          "id": "n1mm.commands.tp.sendKeySequence",
+          "name": "Type command into Callsign Box",
+          "prefix": "n1mm",
+          "type": "communicate",
+          "description": "Bring N1MM+ to foreground, wipe entry, type a non-macro command word in the Callsign box (SSB, OPON, 14235.5, ROVERQTH, ...)",
+          "tryInline": true,
+          "format": "Send Command Text - Sequence{$n1mm.commands.tp.sendKeySequence.press.Data.sequence$}  Send with Enter{$n1mm.commands.tp.sendKeySequence.press.Data.pressEnter$}  Allow in background{$n1mm.commands.tp.sendKeySequence.press.Data.allowbg$}",
+          "data": [
+            {
+              "id": "n1mm.commands.tp.sendKeySequence.press.Data.sequence",
+              "type": "text",
+              "label": "Sequence",
+              "default": ""
+            },
+            {
+              "id": "n1mm.commands.tp.sendKeySequence.press.Data.pressEnter",
+              "type": "switch",
+              "label": "Send with Enter",
+              "default": "true"
+            },
+            {
+              "id": "n1mm.commands.tp.sendKeySequence.press.Data.allowbg",
+              "type": "switch",
+              "label": "Allow in background",
+              "default": "false"
+            }
+          ]
         }
       ],
       "states": [

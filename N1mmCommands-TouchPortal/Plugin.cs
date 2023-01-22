@@ -23,6 +23,7 @@ namespace N1mmCommands.Touchportal
         private const string N1MM_RADIOCMD_LISTENER_ADDRESS = "N1MM+ RadioCmd Listener Address";
         private const string N1MM_UDP_LISTENER_PORT = "N1MM+ RadioCmd Listener Port";
 
+        // use readonly for speed since these never change at runtime.  Any XML-escaping should be done already for special chars like ampersand.
         private readonly byte[] N1MM_RADIOCMD_PREFIX_FOR_RADIO1 = System.Text.Encoding.ASCII.GetBytes("<RadioCmd><RadioNr>1</RadioNr><FocusEntry>");
         private readonly byte[] N1MM_RADIOCMD_PREFIX_FOR_RADIO2 = System.Text.Encoding.ASCII.GetBytes("<RadioCmd><RadioNr>2</RadioNr><FocusEntry>");
         private readonly byte[] N1MM_RADIOCMD_MIDFIX = System.Text.Encoding.ASCII.GetBytes("</FocusEntry><RadioCommand>");
@@ -701,33 +702,34 @@ namespace N1mmCommands.Touchportal
                             else focusEntryLength = 11;
                         }
                         int midfixLength = N1MM_RADIOCMD_MIDFIX.Length;
-                        int commandLength = message.Data.First().Value.Length;
+                        string command = System.Net.WebUtility.HtmlEncode(message.Data.First().Value); // XML-encode the special stuff like ampersand
+                        int commandLength = command.Length;
                         
-                        byte[] command = new byte[
+                        byte[] packedCommand = new byte[
                             prefixLength + focusEntryLength + N1MM_RADIOCMD_MIDFIX.Length + commandLength + N1MM_RADIOCMD_SUFFIX.Length];
                         
                         System.Buffer.BlockCopy(
                             (0 == _currentRadioIdx ? N1MM_RADIOCMD_PREFIX_FOR_RADIO1 : N1MM_RADIOCMD_PREFIX_FOR_RADIO2), 
-                            0, command, 0, prefixLength);
+                            0, packedCommand, 0, prefixLength);
 
                         System.Buffer.BlockCopy(
                             System.Text.Encoding.ASCII.GetBytes(radioAtEventTime.EntryWindowHwnd.ToString()),  // there should be a faster way than this
-                            0, command, prefixLength, focusEntryLength);
+                            0, packedCommand, prefixLength, focusEntryLength);
 
                         System.Buffer.BlockCopy(
                             N1MM_RADIOCMD_MIDFIX,
-                            0, command, prefixLength + focusEntryLength, midfixLength);
+                            0, packedCommand, prefixLength + focusEntryLength, midfixLength);
 
                         System.Buffer.BlockCopy(
-                            System.Text.Encoding.ASCII.GetBytes(message.Data.First().Value),
-                            0, command, prefixLength + focusEntryLength + midfixLength, commandLength);
+                            System.Text.Encoding.ASCII.GetBytes(command),
+                            0, packedCommand, prefixLength + focusEntryLength + midfixLength, commandLength);
 
                         System.Buffer.BlockCopy(
                             N1MM_RADIOCMD_SUFFIX, 0,
-                            command, prefixLength + focusEntryLength + midfixLength + commandLength, N1MM_RADIOCMD_SUFFIX.Length);
+                            packedCommand, prefixLength + focusEntryLength + midfixLength + commandLength, N1MM_RADIOCMD_SUFFIX.Length);
 
-                        _commandSock.SendTo(command, _commandSockEndpoint);
-                        _logger?.LogDebug($"OnActionEvent(): Sending UDP datagram:\n{System.Text.Encoding.ASCII.GetString(command)}\n");
+                        _commandSock.SendTo(packedCommand, _commandSockEndpoint);
+                        _logger?.LogDebug($"OnActionEvent(): Sending UDP datagram:\n{System.Text.Encoding.ASCII.GetString(packedCommand)}\n");
                         break;
 
                     case "n1mm.commands.tp.sendKeys":
@@ -748,7 +750,7 @@ namespace N1mmCommands.Touchportal
                                     message.Data.GetValueOrDefault("n1mm.commands.tp.sendKeys.press.Data.vk", "NO KEY"), 
                                     InputSimulatorEx.Native.VirtualKeyCode.APPS);
 
-                            // foreground the app first, then send the key if it's a valid one
+                            // foreground the app first
                             SetForegroundWindow(targetHwnd);
                             ShowWindow(targetHwnd, SW_RESTORE);
 
@@ -832,6 +834,93 @@ namespace N1mmCommands.Touchportal
                         else
                         {
                             _logger?.LogDebug("OnActionEvent(): Ignoring unsupported or malformed keystroke action.\n");
+                        }
+                        break;
+
+                    case "n1mm.commands.tp.sendKeySequence": // type the typeable ASCII character sequence and hit ENTER
+                        if (3 == message.Data.Count) // printable ASCII string, pressEnter On/Off, allowbg On/Off
+                        {
+                            string sequence = message.Data.GetValueOrDefault("n1mm.commands.tp.sendKeySequence.press.Data.sequence", "").ToLower();
+                            bool pressEnter = message.Data.GetValueOrDefault("n1mm.commands.tp.sendKeySequence.press.Data.pressEnter", "Off").Equals("On");
+                            bool allowbg = message.Data.GetValueOrDefault("n1mm.commands.tp.sendKeySequence.press.Data.allowbg", "Off").Equals("On");
+
+                            if (sequence.Length == 0 || sequence.Length > 15)
+                            {
+                                _logger?.LogDebug($"OnActionEvent(): Ignoring key sequence action that is empty or greater than 15 characters (excluding any Enter).\n");
+                                break; // leave this case block prematurely
+                            }
+
+                            bool foundDisallowedChar = false;
+                            foreach (char c in sequence)
+                            {
+                                if ((c > 96 && c < 127) || //   a-z {|}~
+                                    (c > 39 && c < 59) ||  //   0-9 ()*+,-./:
+                                    (c > 92 && c < 96) ||  //   ]^
+                                    (c > 34 && c < 38) ||  //   #$%
+                                    (c > 90 && c < 92) ||  //   ?@[
+                                    c == 33                //   !
+                                    )
+                                {
+                                    // we found a good character, go on to the next one
+                                    continue;
+                                }
+                                foundDisallowedChar = true;
+                                break;  // stop searching in foreach for more chars, we found a bad one
+                            }
+
+                            if (foundDisallowedChar)
+                            {
+                                _logger?.LogDebug($"OnActionEvent(): Ignoring key sequence action containing disallowed characters.\n");
+                                break; // leave this case block prematurely
+                            }
+
+                            // getting here means we have a valid sequence, so let's send it to N1MM+ as a typed sequence
+
+                            // inhibit pressing Enter if it's a magic string that auto-invokes a modal dialog upon typing the final character
+                            if (sequence.Equals("wipelog") ||
+                                sequence.Equals("beacons"))
+                            {
+                                pressEnter = false;
+                            }
+
+                            // _r[_cr].EntryWindowHwnd matches _r[_cr].FocusEntry only if _currentRadio is the ActiveRadio
+                            int targetHwnd = radioAtEventTime.EntryWindowHwnd;
+
+                            // foreground the app first
+                            SetForegroundWindow(targetHwnd);
+                            ShowWindow(targetHwnd, SW_RESTORE);
+
+                            int i = 40;  // wait up to two seconds
+                            for (; i > 0; --i)
+                            {
+                                if (targetHwnd == GetForegroundWindow())
+                                    break;  // this break leaves this local for-loop
+                                System.Threading.Thread.Sleep(50);
+                            }
+                            if (0 == i)
+                            {
+                                _logger?.LogDebug($"OnActionEvent(): Waited too long for Entry window hWnd {targetHwnd} to be foregrounded, so aborting send key action.\n");
+                                break; // leave this case block prematurely
+                            }
+
+                            // send the sequence - Ctrl-W to clear the callsign box and put the focus there, then type the sequence, and maybe Enter too
+                            _sim.Keyboard.ModifiedKeyStroke(
+                                InputSimulatorEx.Native.VirtualKeyCode.CONTROL, InputSimulatorEx.Native.VirtualKeyCode.VK_W);
+                            
+                            System.Threading.Thread.Sleep(50);
+
+
+                            _sim.Keyboard.TextEntry(sequence);
+                            if (pressEnter)
+                            {
+                                _sim.Keyboard.KeyPress(InputSimulatorEx.Native.VirtualKeyCode.RETURN);
+                            }
+
+                            _logger?.LogDebug($"OnActionEvent(): Foregrounded N1MM+ radio {_currentRadioIdx} at {radioAtEventTime.EntryWindowHwnd} and sent keystrokes.\n");
+                        }
+                        else
+                        {
+                            _logger?.LogDebug("OnActionEvent(): Ignoring unsupported or malformed key sequence action.\n");
                         }
                         break;
 
