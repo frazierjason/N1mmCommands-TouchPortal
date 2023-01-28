@@ -64,7 +64,7 @@ namespace N1mmCommands.Touchportal
         }
 
         [XmlIgnore]
-        private string _app;
+        private string _app = "";
         [XmlElement("app")]
         public string app
         {

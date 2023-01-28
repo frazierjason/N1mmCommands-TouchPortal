@@ -963,7 +963,8 @@ namespace N1mmCommands.Touchportal
 
                             // inhibit pressing Enter if it's a magic string that auto-invokes a modal dialog upon typing the final character
                             if (sequence.Equals("wipelog") ||
-                                sequence.Equals("beacons"))
+                                sequence.Equals("beacons") ||
+                                sequence.Equals("loadspots"))
                             {
                                 pressEnter = false;
                             }

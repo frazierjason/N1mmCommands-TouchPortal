@@ -37,7 +37,9 @@ namespace N1mmCommands.Touchportal
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             string appBaseDirectory = AppContext.BaseDirectory;
             System.IO.DirectoryInfo? parentDirectory = System.IO.Directory.GetParent(appBaseDirectory);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             string basePath = parentDirectory.FullName;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             configurationBuilder.SetBasePath(basePath);
             configurationBuilder.AddJsonFile("appsettings.json", false, true);
             configurationRoot = configurationBuilder.Build();
