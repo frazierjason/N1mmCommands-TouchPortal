@@ -315,14 +315,91 @@ namespace N1mmCommands.Touchportal
                             // track active radio state only for connected radios, and for "Manual" fake-it radios since those always send false IsConnected status
                             if (newRadioInfo.IsConnected || "Manual" == newRadioInfo.RadioName) // assuming "manual" does not get localized to other languages?
                             {
+                                // refresh TP event-facing status for changed items, and log what changed
+
                                 if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.EntryWindowHwnd != _radioInfo[newRadioIdx].EntryWindowHwnd)
                                 {
-                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo HWND on radio {newRadioIdx + 1}: {newRadioInfo.EntryWindowHwnd.ToString()} (0x{newRadioInfo.EntryWindowHwnd:X})\n");
+                                    // don't expose EntryWindowHwnd info to TP status/event handlers
+                                    // don't bother printing FocusEntry, as only the active EntryWindowHwnd matters for plugin keypress-passing
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo HWND on radio {newRadioIdx + 1}: {newRadioInfo.EntryWindowHwnd} (0x{newRadioInfo.EntryWindowHwnd:X})\n");
                                 }
 
                                 if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.Freq != _radioInfo[newRadioIdx].Freq)
                                 {
-                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo Freq on radio {newRadioIdx + 1}: {newRadioInfo.Freq.ToString()}\n");
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.Freq", newRadioInfo.Freq);
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo Freq on radio {newRadioIdx + 1}: {newRadioInfo.Freq}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.TXFreq != _radioInfo[newRadioIdx].TXFreq)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.TXFreq", newRadioInfo.TXFreq);
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo TXFreq on radio {newRadioIdx + 1}: {newRadioInfo.TXFreq}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.IsConnected != _radioInfo[newRadioIdx].IsConnected)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.IsConnected", newRadioInfo.IsConnected.ToString());
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo IsConnected on radio {newRadioIdx + 1}: {newRadioInfo.IsConnected}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.IsRunning != _radioInfo[newRadioIdx].IsRunning)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.IsRunning", newRadioInfo.IsRunning.ToString());
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo IsRunning on radio {newRadioIdx + 1}: {newRadioInfo.IsRunning}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.IsSplit != _radioInfo[newRadioIdx].IsSplit)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.IsSplit", newRadioInfo.IsSplit.ToString());
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo IsSplit on radio {newRadioIdx + 1}: {newRadioInfo.IsSplit}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.IsStereo != _radioInfo[newRadioIdx].IsStereo)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.IsStereo", newRadioInfo.IsStereo.ToString());
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo IsStereo on radio {newRadioIdx + 1}: {newRadioInfo.IsStereo}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.IsTransmitting != _radioInfo[newRadioIdx].IsTransmitting)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.IsTransmitting", newRadioInfo.IsTransmitting.ToString());
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo IsTransmitting on radio {newRadioIdx + 1}: {newRadioInfo.IsTransmitting}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.Mode != _radioInfo[newRadioIdx].Mode)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.Mode", newRadioInfo.Mode);
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo Mode on radio {newRadioIdx + 1}: {newRadioInfo.Mode}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.RadioName != _radioInfo[newRadioIdx].RadioName)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.RadioName", newRadioInfo.RadioName);
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo RadioName on radio {newRadioIdx + 1}: {newRadioInfo.RadioName}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.Rotors != _radioInfo[newRadioIdx].Rotors)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.Rotors", newRadioInfo.Rotors.ToString());
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo Rotors on radio {newRadioIdx + 1}: {newRadioInfo.Rotors}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.Antenna != _radioInfo[newRadioIdx].Antenna)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.Antenna", newRadioInfo.Antenna.ToString());
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo Antenna on radio {newRadioIdx + 1}: {newRadioInfo.Antenna}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.AuxAntSelected != _radioInfo[newRadioIdx].AuxAntSelected)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.AuxAntSelected", newRadioInfo.AuxAntSelected.ToString());
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo AuxAntSelected on radio {newRadioIdx + 1}: {newRadioInfo.AuxAntSelected}\n");
+                                }
+
+                                if (_radioInfo[newRadioIdx].isInvalidated || newRadioInfo.AuxAntSelectedName != _radioInfo[newRadioIdx].AuxAntSelectedName)
+                                {
+                                    _client.StateUpdate($"n1mm.states.radio.{newRadioIdx + 1}.AuxAntSelectedName", newRadioInfo.AuxAntSelectedName);
+                                    logger?.LogInformation($"ReceiveMessage(): got new RadioInfo AuxAntSelectedName on radio {newRadioIdx + 1}: {newRadioInfo.AuxAntSelectedName}\n");
                                 }
 
                                 if (newRadioInfo.ActiveRadioNr - 1 != _currentRadioIdx || (_radioInfo[0].isInvalidated && _radioInfo[1].isInvalidated))
@@ -366,6 +443,10 @@ namespace N1mmCommands.Touchportal
                                     _radioInfo[otherRadioIdx].ActiveRadioNr = _radioInfo[newRadioIdx].ActiveRadioNr;
                                     _radioInfo[otherRadioIdx].FocusEntry = _radioInfo[newRadioIdx].FocusEntry;
                                     _radioInfo[otherRadioIdx].FocusRadioNr = _radioInfo[newRadioIdx].FocusRadioNr;
+
+                                    // we don't expose the HWND info to TP status/events, but we do for the other singletons
+                                    _client.StateUpdate("n1mm.states.radio.ActiveRadioNr", _radioInfo[newRadioIdx].ActiveRadioNr.ToString());
+                                    _client.StateUpdate("n1mm.states.radio.FocusRadioNr", _radioInfo[newRadioIdx].FocusRadioNr.ToString());
                                 }
                             }
                             else
@@ -581,13 +662,17 @@ namespace N1mmCommands.Touchportal
                 }
             }
 
-            if (true == _shouldReconfigureN1mmSockets)
+            if (_shouldReconfigureN1mmSockets || null == _commandSockEndpoint)
             {
                 _commandSockEndpoint = new System.Net.IPEndPoint(
                     _n1mmRadioCmdListenerIP ?? System.Net.IPAddress.Loopback, 
                     _n1mmRadioCmdListenerPort);
-                _logger?.LogInformation("ProcessSettings(): new/changed settings detected that trigger an N1MM+ socket reconfiguration.");
-            }
+
+                if (_shouldReconfigureN1mmSockets)
+                {
+                    _logger?.LogInformation("ProcessSettings(): new/changed settings detected that trigger an N1MM+ socket reconfiguration.");
+                }
+             }
         }
 
         public void OnInfoEvent(InfoEvent message)

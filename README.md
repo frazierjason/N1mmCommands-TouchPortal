@@ -61,6 +61,8 @@ For now, here are some early notes for testers and developers.
   enables plugin usage
   - Buy it twice if you want both iPad and Android tablet
   - I don't get any of this money, it goes to TouchPortal
+- An in-shack charger cable for your tablet, as TouchPortal keeps the display
+  active indefinitely unless you configure it to sleep after some time
 
 Start by first enabling a Broadcast Data feature in N1MM+ application:
 - In N1MM+, go to the Config menu and select "Configure Ports, Mode Control, Winkey, etc ..."
@@ -109,7 +111,7 @@ Upon starting TouchPortal, complete the setup wizard as follows:
 
 After starting up, you will have an empty "(main)" page with no button tiles.
 
-<img src=https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-first-startup.JPG width=00/>
+![A cat](https://github.com/frazierjason/N1mmCommands-TouchPortal/blob/a4e312141209ae65b25b7cf9186aa80c9a13b962/tp-first-startup.JPG)
 
 TouchPortal is now set up.  If you close it, it's still running in the system
 tray next to the Windows clock.  You can reopen/restart/exit from there.
@@ -277,7 +279,13 @@ There is currently no indication of PTT status or other features.  This button
 is used to indicate if there's a problem, and/or tell you which radio you're
 using, and if you press this button it will always bring you to the Quick 
 Launch page for jumping to other N1MM+ pages.  If you create more custom pages
-you can add launcher buttons here to jump to those other pages you create.
+you can add launcher buttons here to jump to those other pages you create. It 
+takes about fifteen seconds for the plugin to determine that it is no longer 
+receiving status for a radio, or if N1MM+ has stopped communicating altogether.
+
+YOU ARE ALL DONE -- for basic functionality not involving custom CAT commands.
+You can use any of the pages directly and as-is, except the radio adjustment
+and rotor control pages.  Try them out!
 
 #### Custom pages for directly executing radio commands by CAT control
 
@@ -334,9 +342,21 @@ to recover your custom page changes later.
 
 (screenshot opening the page settings, click export, name the export)
 
+
+#### Custom page for controlling your rotor
+
+The included sample for controlling your rotor is a dummy sample and it has no 
+implementation whatsoever within.  You'll need to study the N1MM+ documentation
+and come up with some macros that can drive your equipment to to your liking. 
+You can find more info in N1MM+'s documentation for rotor control, as well as 
+the Keyboard Shortcuts and Entry Window links further down in the next section.
+
+https://n1mmwp.hamdocs.com/setup/interfacing/#n1mm-rotator-control
+
+
 ## PLEASE TEST THE FOLLOWING:
 
-This alpha-build software offers two TouchPortal button actions at this time:
+This alpha-build quality software offers three TouchPortal button actions:
 
 ### Send any command via the Call Sign box
 
@@ -347,6 +367,7 @@ N1MM+ application is not brought to the foreground.  This should permit
 users to issue actions, send messages, use macros like {F8} to advance along
 the QSO process, and process other macros like {WIPE}, {FREQUP}, {TURNROTOR}, 
 {F8}, custom CAT rig commands, and digital mode macros. For more info, read:
+
 https://n1mmwp.hamdocs.com/setup/function-keys
 
 *Note about special non-macro action strings:*
@@ -369,9 +390,23 @@ box. There is also a switch called "Allow in Background", which is not yet
 implemented and may never be, depending on how much can be accomplished 
 by hams with the Send Message functionality (which works even if N1MM+ 
 is backgrounded).  N1MM+ keystroke bindings are documented at:
+
 https://n1mmwp.hamdocs.com/setup/keyboard-shortcuts/
 
+### Simulate typing a key sequence and pressing Enter in the Entry Window
 
+If you need to type any of the supported plaintext non-macro commands that are 
+supported by N1MM+ such as CW, SSB, 3838.3, OPON, ROVERQTH, WIPELOG, etc., 
+there is no need to do it with a bunch of simulated keypresses.  This action 
+will let you type the whole command as one word, and it will do the work to 
+wipe the current active Entry window's QSO entry, type the command for you, and
+by default it can press Enter (or you can uncheck the Send with Enter box).
+Known command words like WIPELOG and BEACONS will not execute an Enter since
+they pop up their own modal dialog immediately for you.  Invalid callsign box 
+characters, or words longer than 15 characters, will be ignored.  Entry window 
+plain text command words are documented at:
+
+https://n1mmwp.hamdocs.com/manual-windows/entry-window/?hilite=%22Entry%20Window%20Text%20Commands%22
 
 ## Alpha builds instructions and known issues:
 - Active and closed issues are reported on the project Issues page:

@@ -213,15 +213,205 @@
         {
           "id": "n1mm.states.radioConnectionState",
           "type": "text",
-          "desc": "Indicate which radios N1MM+ is reporting to the plugin",
+          "desc": "Radios indicated by N1MM+",
           "default": "Awaiting N1MM+",
-          "parentGroup": "Integration Status",
-          "valueChoices": [
-            "Awaiting N1MM+",
-            "Radio 1",
-            "Radio 1 of 2",
-            "Radio 2 of 2"
-          ]
+          "parentGroup": "Integration Status"
+        },
+        {
+          "id": "n1mm.states.radio.ActiveRadioNr",
+          "type": "text",
+          "desc": "ActiveRadioNr",
+          "default": "1",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.FocusRadioNr",
+          "type": "text",
+          "desc": "FocusRadioNr",
+          "default": "1",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.Freq",
+          "type": "text",
+          "desc": "Radio 1 Rx Frequency",
+          "default": "0",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.TXFreq",
+          "type": "text",
+          "desc": "Radio 1 Tx Frequency (or VFO B if Split)",
+          "default": "0",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.IsConnected",
+          "type": "text",
+          "desc": "Radio 1 IsConnected",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.IsRunning",
+          "type": "text",
+          "desc": "Radio 1 IsRunning",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.IsSplit",
+          "type": "text",
+          "desc": "Radio 1 IsSplit (has VFO B)",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.IsStereo",
+          "type": "text",
+          "desc": "Radio 1 IsStereo",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.IsTransmitting",
+          "type": "text",
+          "desc": "Radio 1 IsTransmitting",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.Mode",
+          "type": "text",
+          "desc": "Radio 1 Mode",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.RadioName",
+          "type": "text",
+          "desc": "Radio 1 Name",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.Rotors",
+          "type": "text",
+          "desc": "Radio 1 Rotors",
+          "default": "-1",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.Antenna",
+          "type": "text",
+          "desc": "Radio 1 Antenna",
+          "default": "-1",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.AuxAntSelected",
+          "type": "text",
+          "desc": "Radio 1 AuxAntSelected",
+          "default": "-1",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.1.AuxAntSelectedName",
+          "type": "text",
+          "desc": "Radio 1 AuxAntSelectedName",
+          "default": "",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.Freq",
+          "type": "text",
+          "desc": "Radio 2 Rx Frequency",
+          "default": "0",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.TXFreq",
+          "type": "text",
+          "desc": "Radio 2 Tx Frequency (or VFO B if Split)",
+          "default": "0",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.IsConnected",
+          "type": "text",
+          "desc": "Radio 2 IsConnected",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.IsRunning",
+          "type": "text",
+          "desc": "Radio 2 IsRunning",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.IsSplit",
+          "type": "text",
+          "desc": "Radio 2 IsSplit (has VFO B)",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.IsStereo",
+          "type": "text",
+          "desc": "Radio 2 IsStereo",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.IsTransmitting",
+          "type": "text",
+          "desc": "Radio 2 IsTransmitting",
+          "default": "false",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.Mode",
+          "type": "text",
+          "desc": "Radio 2 Mode",
+          "default": "CW",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.RadioName",
+          "type": "text",
+          "desc": "Radio 2 Name",
+          "default": "Manual",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.Rotors",
+          "type": "text",
+          "desc": "Radio 2 Rotors",
+          "default": "-1",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.Antenna",
+          "type": "text",
+          "desc": "Radio 2 Antenna",
+          "default": "-1",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.AuxAntSelected",
+          "type": "text",
+          "desc": "Radio 2 AuxAntSelected",
+          "default": "-1",
+          "parentGroup": "Radio Info"
+        },
+        {
+          "id": "n1mm.states.radio.2.AuxAntSelectedName",
+          "type": "text",
+          "desc": "Radio 2 AuxAntSelectedName",
+          "default": "",
+          "parentGroup": "Radio Info"
         }
       ],
       "events": [
@@ -232,6 +422,230 @@
           "type": "communicate",
           "valueType": "text",
           "valueStateId": "n1mm.states.radioConnectionState"
+        },
+        {
+          "id": "n1mm.events.radio.ActiveRadioNr",
+          "name": "ActiveRadioNr change was detected from N1MM+",
+          "format": "ActiveRadioNr State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.ActiveRadioNr"
+        },
+        {
+          "id": "n1mm.events.radio.FocusRadioNr",
+          "name": "FocusRadioNr change was detected from N1MM+",
+          "format": "FocusRadioNr State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.FocusRadioNr"
+        },
+        {
+          "id": "n1mm.events.radio.1.FreqEvent",
+          "name": "Radio 1 Rx Freq change was detected from N1MM+",
+          "format": "Radio 1 Rx Freq State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.Freq"
+        },
+        {
+          "id": "n1mm.events.radio.1.TXFreqEvent",
+          "name": "Radio 1 Tx Freq change (or VFO B if Split) was detected from N1MM+",
+          "format": "Radio 1 Tx Freq State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.TXFreq"
+        },
+        {
+          "id": "n1mm.events.radio.1.IsConnectedEvent",
+          "name": "Radio 1 IsConnected status change was detected from N1MM+",
+          "format": "Radio 1 IsConnected State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.IsConnected"
+        },
+        {
+          "id": "n1mm.events.radio.1.IsRunningEvent",
+          "name": "Radio 1 IsRunning status change was detected from N1MM+",
+          "format": "Radio 1 IsRunning State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.IsRunning"
+        },
+        {
+          "id": "n1mm.events.radio.1.IsSplitEvent",
+          "name": "Radio 1 IsSplit status change was detected from N1MM+",
+          "format": "Radio 1 IsSplit State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.IsSplit"
+        },
+        {
+          "id": "n1mm.events.radio.1.IsStereoEvent",
+          "name": "Radio 1 IsStereo status change was detected from N1MM+",
+          "format": "Radio 1 IsStereo State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.IsStereo"
+        },
+        {
+          "id": "n1mm.events.radio.1.IsTransmittingEvent",
+          "name": "Radio 1 IsTransmitting status change was detected from N1MM+",
+          "format": "Radio 1 IsTransmitting State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.IsTransmitting"
+        },
+        {
+          "id": "n1mm.events.radio.1.ModeEvent",
+          "name": "Radio 1 Mode status change was detected from N1MM+",
+          "format": "Radio 1 Mode State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.Mode"
+        },
+        {
+          "id": "n1mm.events.radio.1.RadioNameEvent",
+          "name": "Radio 1 RadioName status change was detected from N1MM+",
+          "format": "Radio 1 RadioName State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.RadioName"
+        },
+        {
+          "id": "n1mm.events.radio.1.RotorsEvent",
+          "name": "Radio 1 Rotors status change was detected from N1MM+",
+          "format": "Radio 1 Rotors State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.Rotors"
+        },
+        {
+          "id": "n1mm.events.radio.1.Antenna",
+          "name": "Radio 1 Antenna status change was detected from N1MM+",
+          "format": "Radio 1 Antenna State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.Antenna"
+        },
+        {
+          "id": "n1mm.events.radio.1.AuxAntSelected",
+          "name": "Radio 1 AuxAntSelected status change was detected from N1MM+",
+          "format": "Radio 1 AuxAntSelected State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.AuxAntSelected"
+        },
+        {
+          "id": "n1mm.events.radio.1.AuxAntSelectedName",
+          "name": "Radio 1 AuxAntSelectedName status change was detected from N1MM+",
+          "format": "Radio 1 AuxAntSelectedName State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.1.AuxAntSelectedName"
+        },
+        {
+          "id": "n1mm.events.radio.2.FreqEvent",
+          "name": "Radio 2 Rx Freq change was detected from N1MM+",
+          "format": "Radio 2 Rx Freq State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.Freq"
+        },
+        {
+          "id": "n1mm.events.radio.2.TXFreqEvent",
+          "name": "Radio 2 Tx Freq change (or VFO B if Split) was detected from N1MM+",
+          "format": "Radio 2 Tx Freq State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.TXFreq"
+        },
+        {
+          "id": "n1mm.events.radio.2.IsConnectedEvent",
+          "name": "Radio 2 IsConnected status change was detected from N1MM+",
+          "format": "Radio 2 IsConnected State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.IsConnected"
+        },
+        {
+          "id": "n1mm.events.radio.2.IsRunningEvent",
+          "name": "Radio 2 IsRunning status change was detected from N1MM+",
+          "format": "Radio 2 IsRunning State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.IsRunning"
+        },
+        {
+          "id": "n1mm.events.radio.2.IsSplitEvent",
+          "name": "Radio 2 IsSplit status change was detected from N1MM+",
+          "format": "Radio 2 IsSplit State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.IsSplit"
+        },
+        {
+          "id": "n1mm.events.radio.2.IsStereoEvent",
+          "name": "Radio 2 IsStereo status change was detected from N1MM+",
+          "format": "Radio 2 IsStereo State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.IsStereo"
+        },
+        {
+          "id": "n1mm.events.radio.2.IsTransmittingEvent",
+          "name": "Radio 2 IsTransmitting status change was detected from N1MM+",
+          "format": "Radio 2 IsTransmitting State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.IsTransmitting"
+        },
+        {
+          "id": "n1mm.events.radio.2.ModeEvent",
+          "name": "Radio 2 Mode status change was detected from N1MM+",
+          "format": "Radio 2 Mode State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.Mode"
+        },
+        {
+          "id": "n1mm.events.radio.2.RadioNameEvent",
+          "name": "Radio 2 RadioName status change was detected from N1MM+",
+          "format": "Radio 2 RadioName State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.RadioName"
+        },
+        {
+          "id": "n1mm.events.radio.2.RotorsEvent",
+          "name": "Radio 2 Rotors status change was detected from N1MM+",
+          "format": "Radio 2 Rotors State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.Rotors"
+        },
+        {
+          "id": "n1mm.events.radio.2.AntennaEvent",
+          "name": "Radio 2 Antenna status change was detected from N1MM+",
+          "format": "Radio 2 Antenna State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.Antenna"
+        },
+        {
+          "id": "n1mm.events.radio.2.AuxAntSelectedEvent",
+          "name": "Radio 2 AuxAntSelected status change was detected from N1MM+",
+          "format": "Radio 2 AuxAntSelected State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.AuxAntSelected"
+        },
+        {
+          "id": "n1mm.events.radio.2.AuxAntSelectedNameEvent",
+          "name": "Radio 2 AuxAntSelectedName status change was detected from N1MM+",
+          "format": "Radio 2 AuxAntSelectedName State is $val",
+          "type": "communicate",
+          "valueType": "text",
+          "valueStateId": "n1mm.states.radio.2.AuxAntSelectedName"
         }
       ]
     }
