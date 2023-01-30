@@ -249,6 +249,15 @@ on your PC earlier:
 You should now have all the basic sample button pages loaded, to control common
 actions in N1MM+ that generally apply to most connected rigs.
 
+NOTE:  In some cases, some hams have reported that after importing, each page 
+gets renamed to have an extra digit on the end like "N1MM Quick Buttons 0". 
+This will cause each page's buttons to not find each other and break switching
+between the pages.  The fix is simple, for each page, click on the gear icon to
+the right of the page dropdown, click on "Rename page", and remove the trailing
+space and number.  Save.  Repeat for all pages that got a space and number added
+to the end.  You should end up with a clean list of page names as in the 
+screenshot below.
+
 (screenshot of the page list dropdown list)
 
 (screenshots of the remaining pages)
@@ -289,8 +298,17 @@ and rotor control pages.  Try them out!
 
 #### Custom pages for directly executing radio commands by CAT control
 
-IF YOU HAVE A NON-ICOM RIG that accepts CAT controls for N1MM+ to send commands 
-to the radio:
+Sample Radio Adjustment pages are included for ICOM SDR rigs, and for Flex 6000
+series rigs.  The Flex 6000 series rigs are partially based on Kenwood CAT ASCII
+commands, which could be repurposed and adapted to Kenwood, and other Kenwood
+style rigs such as Apache.  The ICOM sample is based on ICOM CI-V and could 
+easily be backported to earlier non-SDR rigs, depending on available features.
+Some older rigs have very little CAT control features, and may not benefit much
+from CAT control over using the standard N1MM+ controls to reach everything the
+radio already has to offer.
+
+IF YOU HAVE A NON-IMPLEMENTED RIG that accepts CAT controls for N1MM+ to send 
+commands to the radio:
 
 It is possible to create buttons that control your rig via CAT commands. You can
 review the below information and page on how it's done for an ICOM SDR rig, and
@@ -298,14 +316,18 @@ try to figure out how to create similar CAT actions for your own radio model. IF
 the ham community has suitable examples tested and offered up to share, I can 
 add them to this project for others' benefit and ease of use.
 
+IF YOU HAVE A FLEX SMART SDR TRANSCEIVER:
+
+The Radio Adjustment sample page for Flex works as-is.  It is lightly tested.
+
 IF YOU HAVE AN ICOM SDR TRANSCEIVER on Radio 1 in N1MM+:
 
-You can install the page "N1MM-Radio-Adjustments-RIG1-ICOM-SDRs.tpz" for more 
-advanced direct control of your rig features through N1MM+.  After installing 
-the page, change the ICOM CI-V rig address in the "Values" tab to match your 
-rig. Right-click the value named "N1MM CAT1 CIV ID (ICOM)". Change it to the two
-character code matching your ICOM rig settings.  Do not mess with any of the
-other values, they are updated live by the page buttons as they are used.
+After installing the page, change the ICOM CI-V rig address in the "Values" tab 
+to match your rig. Right-click the value named "N1MM CAT1 CIV ID (ICOM)". Change
+it to the two character code matching your ICOM rig settings.  Do not mess with 
+any of the other values, they are updated live by the page buttons as they are 
+used.  A future release of this page will improve its behavior to work on both 
+Radio 1 and Radio 2 for dual-rig setups that have an ICOM on either side.
 
 (screenshot opening the Values tab in TouchPortal)
 
@@ -407,6 +429,16 @@ characters, or words longer than 15 characters, will be ignored.  Entry window
 plain text command words are documented at:
 
 https://n1mmwp.hamdocs.com/manual-windows/entry-window/?hilite=%22Entry%20Window%20Text%20Commands%22
+
+### Use the RadioInfo data exposed by the plugin events, states and actions
+
+In addition to the three offered actions, the plugin exposes almost all of the
+RadioInfo state data for both rigs. You can read the current status for these
+fields in your button actions and events. You can create new events that are 
+triggered when one of these states/events are changed. More details about the 
+contents and purposes for RadioInfo data are documented at:
+
+https://n1mmwp.hamdocs.com/appendices/external-udp-broadcasts/#radio-info
 
 ## Alpha builds instructions and known issues:
 - Active and closed issues are reported on the project Issues page:
