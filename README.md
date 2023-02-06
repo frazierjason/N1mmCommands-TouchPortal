@@ -160,6 +160,7 @@ released version of "N1mmCommands-TouchPortal-win-x64-Release.tpp" file.
 You'll also want to download the latest "N1MM-Pages-Pack.zip" file. Remember 
 where you downloaded these files, usually in your Downloads folder.
 
+LOOK FOR "RELEASES" on the right side of this page up near the top, or go to:
 https://github.com/frazierjason/N1mmCommands-TouchPortal/releases
 
 In TouchPortal on your PC, click the gear icon at the top right of the app. 
@@ -435,8 +436,29 @@ https://n1mmwp.hamdocs.com/manual-windows/entry-window/?hilite=%22Entry%20Window
 In addition to the three offered actions, the plugin exposes almost all of the
 RadioInfo state data for both rigs. You can read the current status for these
 fields in your button actions and events. You can create new events that are 
-triggered when one of these states/events are changed. More details about the 
-contents and purposes for RadioInfo data are documented at:
+triggered when one of these states/events are changed.  The following states 
+are available, and events can be triggered by state data changes:
+|Touch Portal state variable name|Friendly Name|Description/examples|
+|:--|:--|:--|
+|n1mm.states.radioConnectionState|Radios indicated by N1MM+|Awaiting N1M+, Radio 1, Radio 1 of 2, Radio 2 of 2|
+|n1mm.states.radio.ActiveRadioNr|ActiveRadioNr|1 or 2|
+|n1mm.states.radio.FocusRadioNr|FocusRadioNr|1 or 2|
+|n1mm.states.radio.1.Freq|Radio 1 Rx Frequency|Rx or VFO A in decacycles. 14MHz would be 1400000|
+|n1mm.states.radio.1.TXFreq|Radio 1 Tx Frequency (or VFO B if Split)|Tx or VFO B in decacycles. 14MHz would be 1400000|
+|n1mm.states.radio.1.IsConnected|Radio 1 IsConnected|CAT control status. True or False (capitalized)|
+|n1mm.states.radio.1.IsRunning|Radio 1 IsRunning|Run mode vs S&P. True or False (capitalized)|
+|n1mm.states.radio.1.IsSplit|Radio 1 IsSplit (has VFO B)|Using two VFOs on one rig for RX vs TX. True or False (capitalized)|
+|n1mm.states.radio.1.IsStereo|Radio 1 IsStereo|Audio is different on L vs R speaker. True or False (capitalized)|
+|n1mm.states.radio.1.IsTransmitting|Radio 1 IsTransmitting|N1MM+ is sending RF. True or False (capitalized)|
+|n1mm.states.radio.1.Mode|Radio 1 Mode|CW, LSB, RTTY, any modes supported by N1MM+.|
+|n1mm.states.radio.1.RadioName|Radio 1 Name|Model of radio as configured in N1MM+|
+|n1mm.states.radio.1.Rotors|Radio 1 Rotors|Name of currently selected rotor in N1MM+|
+|n1mm.states.radio.1.Antenna|Radio 1 Antenna|Integer ID of current antenna as mapped within N1MM+|
+|n1mm.states.radio.1.AuxAntSelected|Radio 1 AuxAntSelected|One-time transient integer ID upon using {auxantsel} in N1MM|
+|n1mm.states.radio.1.AuxAntSelectedName|Radio 1 AuxAntSelectedName|One-time transient name upon using {auxantsel} in N1MM|
+|n1mm.states.radio.2...  ALL SAME AS ABOVE…|… SAME AS FOR RADIO 1 ABOVE|… SAME AS FOR RADIO 1 ABOVE|
+
+More details on the intents and purposes for RadioInfo data are documented at:
 
 https://n1mmwp.hamdocs.com/appendices/external-udp-broadcasts/#radio-info
 
