@@ -250,8 +250,8 @@ on your PC earlier:
 You should now have all the basic sample button pages loaded, to control common
 actions in N1MM+ that generally apply to most connected rigs.
 
-NOTE:  In some cases, some hams have reported that after importing, each page 
-gets renamed to have an extra digit on the end like "N1MM Quick Buttons 0". 
+HOWEVER, most hams have reported that after importing, each page 
+gets renamed to have an extra " 0" or " 1" space-and-digit on the end like "N1MM Quick Buttons 0". 
 This will cause each page's buttons to not find each other and break switching
 between the pages.  The fix is simple, for each page, click on the gear icon to
 the right of the page dropdown, click on "Rename page", and remove the trailing
@@ -440,7 +440,7 @@ triggered when one of these states/events are changed.  The following states
 are available, and events can be triggered by state data changes:
 |Touch Portal state variable name|Friendly Name|Description/examples|
 |:--|:--|:--|
-|n1mm.states.radioConnectionState|Radios indicated by N1MM+|Awaiting N1M+, Radio 1, Radio 1 of 2, Radio 2 of 2|
+|n1mm.states.radioConnectionState|Radios indicated by N1MM+|Awaiting N1MM+, Radio 1, Radio 1 of 2, Radio 2 of 2|
 |n1mm.states.radio.ActiveRadioNr|ActiveRadioNr|1 or 2|
 |n1mm.states.radio.FocusRadioNr|FocusRadioNr|1 or 2|
 |n1mm.states.radio.1.Freq|Radio 1 Rx Frequency|Rx or VFO A in decacycles. 14MHz would be 1400000|
